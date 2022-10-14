@@ -9,15 +9,18 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.geom.Point2D.Double;
 
-public class Player {
+
+public class Player extends Entity{ ;
 
     //has x and y position of player
-    private Point pos;
     
+    private int score;
     private BufferedImage image;
     
     //handles continuous movement
@@ -42,34 +45,16 @@ public class Player {
     public int health = 100;
     
     public Player() {
-        // loads the image
-        loadImage();
+    	super(new Point.Double(0,0), 1, "player.png", new Model(new Polygon[0]));
 
         // initialize the state
         pos = new Point(0, 0);
+        score = 0;
     }
 
-    private void loadImage() {
-        
-    	//loads the image for the player
-    	try { image = ImageIO.read(new File("images/player.png"));
-        } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); }
     
     	imageX = image.getWidth();
     	imageY = image.getHeight();
-    }
-
-    public void draw(Graphics g, ImageObserver observer) {
-        // with the Point class, note that pos.getX() returns a double
-        
-    	//draws the player
-    	g.drawImage(
-            image, 
-            pos.x, 
-            pos.y, 
-            observer
-        );
-    	
     }
     
     public void keyPressed(KeyEvent e) {
@@ -123,7 +108,9 @@ public class Player {
         
        
         
+        if (upPressed) { pos.translate(0, -1); }
         
+        if (rightPressed) { pos.translate(1, 0); }
         
         //setting fastest speed allowed
         if (xVelocity > maxXVelocity) {xVelocity = maxXVelocity;}
@@ -143,7 +130,7 @@ public class Player {
     	return pos.y == Board.MAX_Y-imageY;
     }
 
+    public Point.Double getPos() { return pos; }
     public int getHealth() { return health; }
-    public Point getPos() { return pos; }
     
 }

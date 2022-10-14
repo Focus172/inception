@@ -26,6 +26,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     
     // objects that appear on the game board
     private Player player;
+    private ArrayList<Coin> coins;
+    private ArrayList<Obstacle> obstacles;
+    
+    private Side[] sides;
+    
 
     public Board() {
         // set the game board size
@@ -37,6 +42,19 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
+        coins = populateCoins();
+        sides = new Side[4];
+//        obstacles = populateObstacles();
+        
+        Obstacle[] obstacles = new Obstacle[2];
+        obstacles[0] = new Obstacle(new Point.Double(15,15), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[1] = new Obstacle(new Point.Double(15,50), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        sides[0] = new Side(obstacles, 1);
+        
+        
+        
+        obstacles[1] = new Obstacle(new Point.Double(15,50), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        sides[1] = new Side(obstacles, 1);
 
         
         // this timer will call the actionPerformed() method every DELAY ms
@@ -54,11 +72,14 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         // updates each objects each tick
         player.tick();
+        sides[0].rotate(1);
         //object.tck();
 
         //this updates all the graphics by calling the paintComponent() method
         repaint();
     }
+    
+    
 
     @Override
     public void paintComponent(Graphics g) {
@@ -71,6 +92,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // draw our graphics.
         //drawScore(g);
         player.draw(g, this);
+        sides[0].draw(g, this);
         
     	//drawing the health
 
@@ -115,6 +137,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     	// when player releases key call method of that player
     	// this method will set them pushing the key to false
     	player.keyReleased(release);
+    }
+    
+    private void tickAll() {
+    	player.tick();
+    	
     }
 
     /*
@@ -167,9 +194,24 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         return coinList;
     }
-    */
+    
+    private ArrayList<Coin> populateObstacles() {
+        ArrayList<Coin> obstacleList = new ArrayList<>();
+        Random rand = new Random();
 
-    /*
+        // create the given number of coins in random positions on the board.
+        // note that there is not check here to prevent two coins from occupying the same
+        // spot, nor to prevent coins from spawning in the same spot as the player
+        for (int i = 0; i < NUM_COINS; i++) {
+            int topLeft = rand.nextInt();
+            int coinY = rand.nextInt(ROWS);
+//            obstacleList.add(new Coin(coinX, coinY));
+        }
+
+        return obstacleList;
+    }
+
+
     private void collectCoins() {
         // allow player to pickup coins
         ArrayList<Coin> collectedCoins = new ArrayList<>();
