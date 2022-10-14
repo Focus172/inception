@@ -1,4 +1,4 @@
-package Main;
+
 
 //code heavily stolen from https://github.com/learncodebygaming/java_2d_game
 
