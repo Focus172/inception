@@ -21,9 +21,13 @@ public class Player {
     public boolean leftPressed = false;
     public boolean rightPressed = false;
     
+    public int yVelocity = 0;
+    public int xVelocity = 0;
+    
+    private final int gravity = 4;
     
     public Player() {
-        // load the assets
+        // loads the image
         loadImage();
 
         // initialize the state
@@ -46,45 +50,21 @@ public class Player {
         // position by multiplying by the tile size.
         g.drawImage(
             image, 
-            pos.x * Board.TILE_SIZE, 
-            pos.y * Board.TILE_SIZE, 
+            pos.x, 
+            pos.y, 
             observer
         );
     }
     
     public void keyPressed(KeyEvent e) {
-        // every keyboard get has a certain code. get the value of that code from the
-        // keyboard event so that we can compare it to KeyEvent constants
+    	//gets the code of the key being pressed
         int key = e.getKeyCode();
         
-        // depending on which arrow key was pressed, we're going to move the player by
-        // one whole tile for this input
-        
         if (key == KeyEvent.VK_UP) { upPressed = true; }
-        
         if (key == KeyEvent.VK_RIGHT) { rightPressed = true; }
-       
         if (key == KeyEvent.VK_DOWN) { downPressed = true; }
-        
         if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
         
-        
-        
-       
-        /*
-        if (key == KeyEvent.VK_UP) {
-            pos.translate(0, -1);
-        }
-        if (key == KeyEvent.VK_RIGHT) {
-            pos.translate(1, 0);
-        }
-        if (key == KeyEvent.VK_DOWN) {
-            pos.translate(0, 1);
-        }
-        if (key == KeyEvent.VK_LEFT) {
-            pos.translate(-1, 0);
-        }
-        */
     }
     
     
@@ -93,14 +73,11 @@ public class Player {
     	int key = e.getKeyCode();
     	
     	if (key == KeyEvent.VK_UP) { upPressed = false; }
-        
-        if (key == KeyEvent.VK_RIGHT) { rightPressed = false; }
-       
+        if (key == KeyEvent.VK_RIGHT) { rightPressed = false; }  
         if (key == KeyEvent.VK_DOWN) { downPressed = false; }
-        
         if (key == KeyEvent.VK_LEFT) { leftPressed = false; }
+        
     }
-    
 
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
@@ -109,25 +86,35 @@ public class Player {
     	
         // prevent the player from moving off the edge of the board sideways
     	//this should be changed to handle edges
-    	if (pos.x < 0) { pos.x = 0;
-        } else if (pos.x >= Board.COLUMNS) { pos.x = Board.COLUMNS - 1; }
         
-        // prevent the player from moving off the edge of the board vertically
-        if (pos.y < 0) {
-            pos.y = 0;
-        } else if (pos.y >= Board.ROWS) {
-            pos.y = Board.ROWS - 1;
+    
+        System.out.println("yPos: " + pos.y);
+        System.out.println("yVelocity: " + yVelocity);
+    	
+        //if player is jumping then set their yVelocity Up
+        
+        //this doesnt work
+        if (upPressed && pos.y <= Board.MAX_Y-300) { yVelocity -= 200; }
+        
+        //if the player wants to move then let them
+        if (rightPressed && !leftPressed) { xVelocity += 10; }
+        else if (!rightPressed && leftPressed) { xVelocity -= 10; } 
+        
+        //if player does not want to move or is indesisive then slow them
+        if ((rightPressed && leftPressed) || (!rightPressed && !leftPressed)) {
+        	 xVelocity = 0;
         }
         
+        yVelocity += gravity;
         
-        if (upPressed) { pos.translate(0, -1); }
+        if (pos.x < 0) { pos.x = 0; }
+        else if (pos.x >= Board.MAX_X) { pos.x = Board.MAX_X - 1; xVelocity = 0;}
         
-        if (rightPressed) { pos.translate(1, 0); }
+        // prevent the player from moving off the edge of the board vertically
+        if (pos.y < 0) { pos.y = 0; }
+        else if (pos.y + 200 >= Board.MAX_Y) { pos.y = Board.MAX_Y - 200; yVelocity = 0;}
         
-        if (downPressed) { pos.translate(0, 1); }
-        
-        if (leftPressed) { pos.translate(-1, 0); }
-        
+        pos.translate(xVelocity, yVelocity);
         
         //implement some type of gravity
         
