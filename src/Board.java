@@ -11,11 +11,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     private final double FPS = 1000.0 / DELAY;
     
     // controls the size of the board
-    public static final int PIXEL_SIZE = 1;
-    
     public static final int MAX_X = 800;
     public static final int MAX_Y = 800;
-
 
     // suppress serialization warning
     private static final long serialVersionUID = 490905409104883233L;
@@ -23,6 +20,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // keep a reference to the timer object that triggers actionPerformed() in
     // case we need access to it in another method
     private Timer timer;
+    
     // objects that appear on the game board
     private Player player;
 
@@ -36,7 +34,6 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
-        //coins = populateCoins();
 
         
         // this timer will call the actionPerformed() method every DELAY ms
@@ -71,6 +68,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // draw our graphics.
         //drawScore(g);
         player.draw(g, this);
+        
+        //g.setColor(new Color(0,0,0));
+        //g.fillRect(0, 600, 400, 180);
 
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
