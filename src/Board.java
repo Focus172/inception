@@ -47,13 +47,10 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 //        obstacles = populateObstacles();
         
         Obstacle[] obstacles = new Obstacle[2];
-        obstacles[0] = new Obstacle(new Point.Double(15,15), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
-        obstacles[1] = new Obstacle(new Point.Double(15,50), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[0] = new Obstacle(new Point.Double(100,100), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[1] = new Obstacle(new Point.Double(100,150), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         sides[0] = new Side(obstacles, 1);
-        
-        
-        
-        obstacles[1] = new Obstacle(new Point.Double(15,50), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+ 
         sides[1] = new Side(obstacles, 1);
 
         
@@ -72,7 +69,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         // updates each objects each tick
         player.tick();
-        sides[0].rotate(1);
+        sides[0].rotate(0.25);
         //object.tck();
 
         //this updates all the graphics by calling the paintComponent() method

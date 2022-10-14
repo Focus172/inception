@@ -36,7 +36,7 @@ public class Side {
 		}
 	}
 	
-	public void rotate(int degrees) {
+	public void rotate(double degrees) {
 		for (int i = 0; i < obstacles.length; i++) {
 			obstacles[i].rotate(degrees);
 		}

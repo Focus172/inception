@@ -1,5 +1,3 @@
-
-
 //code heavily stolen from https://github.com/learncodebygaming/java_2d_game
 
 import javax.swing.*;

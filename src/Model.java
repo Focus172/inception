@@ -38,7 +38,7 @@ public class Model {
 		return out;
 	}
 	
-	public void rotate(int degrees) {
+	public void rotate(double degrees) {
 		for (int i = 0; i < shapes.length; i++) {
 			Polygon current = shapes[i];
 			for (int j = 0; j < current.xpoints.length; j++) {
@@ -48,7 +48,7 @@ public class Model {
 		}
 	}
 	
-	private Point.Double transform (Point.Double point, int degrees) {
+	private Point.Double transform (Point.Double point, double degrees) {
 		point.x = (Math.cos(Math.toRadians(degrees)) * point.x - point.y * Math.sin(Math.toRadians(degrees)));
 		point.y = (Math.cos(Math.toRadians(degrees)) * point.y + point.x * Math.sin(Math.toRadians(degrees)));
 		return point;
