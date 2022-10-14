@@ -10,12 +10,12 @@ import javax.imageio.ImageIO;
 
 public class Entity {
 
-	public Point pos; // position
+	public Point.Double pos; // position
 	public BufferedImage image; //image of the entity
 	public double size; //1 is the same size as the image file itself; multiplicative scaling
 	public Model model;
 	
-	public Entity (Point npos, double nsize, String nfileName, Model nmodel) {
+	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel) {
 		pos = npos;
 		size = nsize;
 		model = nmodel;
@@ -37,21 +37,20 @@ public class Entity {
         // position by multiplying by the tile size.
         g.drawImage(
             image, 
-            pos.x * Board.TILE_SIZE, 
-            pos.y * Board.TILE_SIZE, 
+            (int)pos.x * Board.TILE_SIZE, 
+            (int)pos.y * Board.TILE_SIZE, 
             observer
         );
     }
 	
 	public boolean collision(Entity other) {
 		boolean out = false;
-		Point otherPos = other.getPos();
+		Point.Double otherPos = other.getPos();
 		BufferedImage otherImg = other.getImage();
-		if (this.model())
-		return out;
+		return this.model.collision(other.model);
 	}
 	
-	public Point getPos() {
+	public Point.Double getPos() {
 		return pos;
 	}
 	

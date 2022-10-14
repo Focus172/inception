@@ -3,9 +3,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.geom.Point2D.Double;
+
 
 public class Player extends Entity{ ;
 
@@ -21,7 +24,7 @@ public class Player extends Entity{ ;
     
     
     public Player() {
-    	super(new Point(0,0), 1, "player.png");
+    	super(new Point.Double(0,0), 1, "player.png", new Model(new Polygon[0]));
 
         // initialize the state
         
@@ -98,13 +101,13 @@ public class Player extends Entity{ ;
         }
         
         
-        if (upPressed) { pos.translate(0, -1); }
+        if (upPressed) { pos.y += -1; }
         
-        if (rightPressed) { pos.translate(1, 0); }
+        if (rightPressed) { pos.x += 1; }
         
-        if (downPressed) { pos.translate(0, 1); }
+        if (downPressed) { pos.y += 1; }
         
-        if (leftPressed) { pos.translate(-1, 0); }
+        if (leftPressed) { pos.x += -1; }
         
         
         //implement some type of gravity
@@ -112,7 +115,7 @@ public class Player extends Entity{ ;
     }
 
     public String getScore() { return String.valueOf(score); }
-    public Point getPos() { return pos; }
+    public Point.Double getPos() { return pos; }
     public void addScore(int amount) { score += amount; }
     
 }

@@ -38,4 +38,22 @@ public class Model {
 		return out;
 	}
 	
+	public void rotate(int degrees) {
+		for (int i = 0; i < shapes.length; i++) {
+			Polygon current = shapes[i];
+			for (int j = 0; j < current.xpoints.length; j++) {
+				Point.Double point = new Point.Double (current.xpoints[j],current.ypoints[j]);
+				point = transform(point, degrees);
+			}
+		}
+	}
+	
+	private Point.Double transform (Point.Double point, int degrees) {
+		point.x = (Math.cos(Math.toRadians(degrees)) * point.x - point.y * Math.sin(Math.toRadians(degrees)));
+		point.y = (Math.cos(Math.toRadians(degrees)) * point.y + point.x * Math.sin(Math.toRadians(degrees)));
+		return point;
+	}
+	
+	
+	
 }

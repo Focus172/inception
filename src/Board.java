@@ -23,6 +23,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // objects that appear on the game board
     private Player player;
     private ArrayList<Coin> coins;
+    private ArrayList<Obstacle> obstacles;
 
     public Board() {
         // set the game board size
@@ -33,6 +34,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // initialize the game state
         player = new Player();
         coins = populateCoins();
+        obstacles = populateObstacles();
 
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
@@ -161,6 +163,23 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         return coinList;
     }
+    
+    private ArrayList<Coin> populateObstacles() {
+        ArrayList<Coin> obstacleList = new ArrayList<>();
+        Random rand = new Random();
+
+        // create the given number of coins in random positions on the board.
+        // note that there is not check here to prevent two coins from occupying the same
+        // spot, nor to prevent coins from spawning in the same spot as the player
+        for (int i = 0; i < NUM_COINS; i++) {
+            int topLeft = rand.nextInt();
+            int coinY = rand.nextInt(ROWS);
+//            obstacleList.add(new Coin(coinX, coinY));
+        }
+
+        return obstacleList;
+    }
+
 
     private void collectCoins() {
         // allow player to pickup coins
