@@ -21,7 +21,7 @@ public class Player {
     private int score;
     private BufferedImage image;
     
-    //handles continous movement
+    //handles continuous movement
     public boolean upPressed = false;
     public boolean downPressed = false;
     public boolean leftPressed = false;
@@ -87,13 +87,13 @@ public class Player {
         
         // set the text color and font
         
-        
+        int height = 25;
         g2d.setColor(new Color(30, 201, 139));
-        g.fillRect(0, 600, 200, 40);
+        g.fillRect(400, Board.MAX_Y-height, 400, height);
         
         g2d.setFont(new Font("Lato", Font.BOLD, 25));
         g2d.setColor(new Color(0, 0, 0));
-        g2d.drawString(text, 0, 600);
+        g2d.drawString(text, 400, Board.MAX_Y-1);
 
     	
     }
@@ -122,22 +122,14 @@ public class Player {
     }
 
     public void tick() {
-        // this gets called once every tick, before the repainting process happens.
-        // so we can do anything needed in here to update the state of the player.
+    	//called every tick
 
-    	
-        // prevent the player from moving off the edge of the board sideways
-    	//this should be changed to handle edges
-        
-    
-
-
-        
-        
 
         
         //apply gravity
         yVelocity += gravity;
+        
+        health--;
         
         //prevent them from moving through things
         if (pos.y < 0) { pos.y = 0; }
