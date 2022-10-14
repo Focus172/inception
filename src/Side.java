@@ -6,14 +6,10 @@ public class Side {
 	private Obstacle[] obstacles;
 	//number 0-3 which represents which side of the board this is; starts at left side and goes clockwise
 	private int whichSide;
-	private Graphics g;
-	private ImageObserver observer;
 	
-	public Side(Obstacle[] obstacles, int whichSide, Graphics ng, ImageObserver nobserver) {
+	public Side(Obstacle[] obstacles, int whichSide) {
 		this.obstacles = obstacles;
 		this.whichSide = whichSide;
-		g = ng;
-		observer = nobserver;
 	}
 	
 	public Obstacle[] getObstacles(){
@@ -34,9 +30,15 @@ public class Side {
 		this.whichSide = nwhichSide;
 	}
 	
-	public void drawObbies() {
+	public void draw(Graphics g, ImageObserver observer) {
 		for (Obstacle obby: obstacles) {
 			obby.draw(g, observer);
+		}
+	}
+	
+	public void rotate(int degrees) {
+		for (int i = 0; i < obstacles.length; i++) {
+			obstacles[i].rotate(degrees);
 		}
 	}
 }

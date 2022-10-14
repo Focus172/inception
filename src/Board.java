@@ -24,6 +24,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     private Player player;
     private ArrayList<Coin> coins;
     private ArrayList<Obstacle> obstacles;
+    
+    private Side[] sides;
+    
 
     public Board() {
         // set the game board size
@@ -34,7 +37,18 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // initialize the game state
         player = new Player();
         coins = populateCoins();
+        sides = new Side[4];
 //        obstacles = populateObstacles();
+        
+        Obstacle[] obstacles = new Obstacle[2];
+        obstacles[0] = new Obstacle(new Point.Double(15,15), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[1] = new Obstacle(new Point.Double(15,50), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        sides[0] = new Side(obstacles, 1);
+        
+        
+        
+        obstacles[1] = new Obstacle(new Point.Double(15,50), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        sides[1] = new Side(obstacles, 1);
 
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
@@ -49,6 +63,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         // prevent the player from disappearing off the board
         player.tick();
+        sides[0].rotate(1);
 
         // give the player points for collecting coins
         collectCoins();
@@ -57,6 +72,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // which will refresh/redraw the graphics.
         repaint();
     }
+    
+    
 
     @Override
     public void paintComponent(Graphics g) {
@@ -73,6 +90,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
             coin.draw(g, this);
         }
         player.draw(g, this);
+        sides[0].draw(g, this);
 
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
@@ -95,6 +113,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     	// when player releases key call method of that player
     	// this method will set them pushing the key to false
     	player.keyReleased(release);
+    }
+    
+    private void tickAll() {
+    	player.tick();
+    	
     }
 
     private void drawBackground(Graphics g) {

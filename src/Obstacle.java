@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -30,5 +31,13 @@ public class Obstacle extends Entity {
             observer
         );
     }
+	
+	public void rotate (int degrees) {
+		Point.Double newPoint = new Point.Double();
+		newPoint.x = (Math.cos(Math.toRadians(degrees)) * pos.x - pos.y * Math.sin(Math.toRadians(degrees)));
+		newPoint.y = (Math.cos(Math.toRadians(degrees)) * pos.y + pos.x * Math.sin(Math.toRadians(degrees)));
+		pos = newPoint;
+		model.rotate(degrees);
+	}
 	
 }
