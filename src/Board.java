@@ -9,9 +9,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // controls the delay between each tick in ms
     private final int DELAY = 25;
     // controls the size of the board
-    public static final int TILE_SIZE = 50;
-    public static final int ROWS = 12;
-    public static final int COLUMNS = 18;
+    public static final int TILE_SIZE = 5;
+    public static final int ROWS = 120;
+    public static final int COLUMNS = 180;
     // controls how many coins appear on the board
     public static final int NUM_COINS = 5;
     // suppress serialization warning
@@ -63,7 +63,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // because Component implements the ImageObserver interface, and JPanel 
         // extends from Component. So "this" Board instance, as a Component, can 
         // react to imageUpdate() events triggered by g.drawImage()
-
+ 
         // draw our graphics.
         drawBackground(g);
         drawScore(g);
@@ -82,14 +82,17 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        // react to key down events
-        player.keyPressed(e);
+    public void keyPressed(KeyEvent press) {
+        // when player presses key call method of that player
+    	//this method will set them pushing the key to true
+        player.keyPressed(press);
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        // react to key up events
+    public void keyReleased(KeyEvent release) {
+    	// when player releases key call method of that player
+    	// this method will set them pushing the key to false
+    	player.keyReleased(release);
     }
 
     private void drawBackground(Graphics g) {

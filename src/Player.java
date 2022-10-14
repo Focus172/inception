@@ -9,12 +9,11 @@ import javax.imageio.ImageIO;
 
 public class Player {
 
-    // image that represents the player's position on the board
-    private BufferedImage image;
-    // current position of the player on the board grid
+    //has x and y position of player
     private Point pos;
-    // keep track of the player's score
+    
     private int score;
+    private BufferedImage image;
 
     public Player() {
         // load the assets
@@ -26,13 +25,11 @@ public class Player {
     }
 
     private void loadImage() {
-        try {
-            // you can use just the filename if the image file is in your
-            // project folder, otherwise you need to provide the file path.
-            image = ImageIO.read(new File("images/player.png"));
-        } catch (IOException exc) {
-            System.out.println("Error opening image file: " + exc.getMessage());
-        }
+        
+    	//loads the image for the player
+    	try { image = ImageIO.read(new File("images/player.png"));
+        } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); }
+    
     }
 
     public void draw(Graphics g, ImageObserver observer) {
@@ -48,6 +45,13 @@ public class Player {
         );
     }
     
+    
+    
+    public boolean upPressed = false;
+    public boolean downPressed = false;
+    public boolean leftPressed = false;
+    public boolean rightPressed = false;
+    
     public void keyPressed(KeyEvent e) {
         // every keyboard get has a certain code. get the value of that code from the
         // keyboard event so that we can compare it to KeyEvent constants
@@ -55,6 +59,22 @@ public class Player {
         
         // depending on which arrow key was pressed, we're going to move the player by
         // one whole tile for this input
+        
+        if (key == KeyEvent.VK_UP) { upPressed = true; }
+        
+        if (key == KeyEvent.VK_RIGHT) {
+        	rightPressed = true;
+        }
+        if (key == KeyEvent.VK_DOWN) {
+        	downPressed = true;
+        }
+        
+        if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
+        
+        
+        
+       
+        /*
         if (key == KeyEvent.VK_UP) {
             pos.translate(0, -1);
         }
@@ -67,7 +87,13 @@ public class Player {
         if (key == KeyEvent.VK_LEFT) {
             pos.translate(-1, 0);
         }
+        */
     }
+    
+    
+    public void keyReleased(KeyEvent e) {
+    }
+    
 
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
@@ -79,24 +105,21 @@ public class Player {
         } else if (pos.x >= Board.COLUMNS) {
             pos.x = Board.COLUMNS - 1;
         }
+        
         // prevent the player from moving off the edge of the board vertically
         if (pos.y < 0) {
             pos.y = 0;
         } else if (pos.y >= Board.ROWS) {
             pos.y = Board.ROWS - 1;
         }
+        
+        
+        //implement some type of gravity
+        
     }
 
-    public String getScore() {
-        return String.valueOf(score);
-    }
-
-    public void addScore(int amount) {
-        score += amount;
-    }
-
-    public Point getPos() {
-        return pos;
-    }
-
+    public String getScore() { return String.valueOf(score); }
+    public Point getPos() { return pos; }
+    public void addScore(int amount) { score += amount; }
+    
 }
