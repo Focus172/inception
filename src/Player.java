@@ -129,32 +129,41 @@ public class Player {
     	
         //if player is jumping then set their yVelocity Up
         
-        //this doesnt work
-        if (upPressed && pos.y <= Board.MAX_Y-300) { yVelocity -= 200; }
+        yVelocity += gravity;
         
         //if the player wants to move then let them
         if (rightPressed && !leftPressed) { xVelocity += 10; }
         else if (!rightPressed && leftPressed) { xVelocity -= 10; } 
         
-        //if player does not want to move or is indesisive then slow them
+        //if player does not want to move or is indesive then slow them
         if ((rightPressed && leftPressed) || (!rightPressed && !leftPressed)) {
         	 xVelocity = 0;
         }
         
-        yVelocity += gravity;
-        
+       
+        //this needs a terminal velocity
         if (pos.x < 0) { pos.x = 0; }
-        else if (pos.x >= Board.MAX_X) { pos.x = Board.MAX_X - 1; xVelocity = 0;}
+        else if (pos.x >= Board.MAX_X) { pos.x = Board.MAX_X - 1; xVelocity = 0; }
         
         // prevent the player from moving off the edge of the board vertically
         if (pos.y < 0) { pos.y = 0; }
-        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0;}
+        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0; }
+        
+        
+        
+        //if you are on the ground then jump
+        if (upPressed && grounded()) { yVelocity -= 20; }
         
         pos.translate(xVelocity, yVelocity);
         
-        //implement some type of gravity
-        
     }
+    
+    private boolean grounded() {
+    	//TODO make colition detection to 
+    	return pos.y == Board.MAX_Y-imageY;
+    }
+    
+    
 
     public String getScore() { return String.valueOf(score); }
     public Point getPos() { return pos; }
