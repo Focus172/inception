@@ -34,7 +34,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // initialize the game state
         player = new Player();
         coins = populateCoins();
-        obstacles = populateObstacles();
+//        obstacles = populateObstacles();
 
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
