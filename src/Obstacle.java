@@ -26,8 +26,8 @@ public class Obstacle extends Entity {
 	    transform.rotate(Math.toRadians(rotation), super.image.getWidth() / 2, super.image.getHeight() / 2);
         g.drawImage(
             image, 
-            (int)pos.x * Board.TILE_SIZE, 
-            (int)pos.y * Board.TILE_SIZE, 
+            (int)pos.x, // * Board.TILE_SIZE
+            (int)pos.y, // * Board.TILE_SIZE
             observer
         );
     }

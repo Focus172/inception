@@ -37,8 +37,8 @@ public class Entity {
         // position by multiplying by the tile size.
         g.drawImage(
             image, 
-            (int)pos.x * Board.TILE_SIZE, 
-            (int)pos.y * Board.TILE_SIZE, 
+            (int)pos.x, 
+            (int)pos.y, 
             observer
         );
     }

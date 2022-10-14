@@ -20,7 +20,7 @@ public class Player extends Entity{ ;
 
     //has x and y position of player
     
-    private int score;
+    //private int score;
     private BufferedImage image;
     
     //handles continuous movement
@@ -29,15 +29,15 @@ public class Player extends Entity{ ;
     public boolean leftPressed = false;
     public boolean rightPressed = false;
     
-    public int yVelocity = 0;
-    public int xVelocity = 0;
+    public double yVelocity = 0;
+    public double xVelocity = 0;
     
     public final int  maxXVelocity = 50;
     public final int  maxYVelocity = 100;
     
     public boolean grounded = false;
     
-    private final int gravity = 6;
+    private final double gravity = 6;
     
     private int imageX;
     private int imageY;
@@ -48,13 +48,10 @@ public class Player extends Entity{ ;
     	super(new Point.Double(0,0), 1, "player.png", new Model(new Polygon[0]));
 
         // initialize the state
-        pos = new Point(0, 0);
-        score = 0;
-    }
-
+        //score = 0;
     
-    	imageX = image.getWidth();
-    	imageY = image.getHeight();
+    	imageX = super.image.getWidth();
+    	imageY = super.image.getHeight();
     }
     
     public void keyPressed(KeyEvent e) {
@@ -90,27 +87,24 @@ public class Player extends Entity{ ;
         
         //prevent them from moving through things
         if (pos.y < 0) { pos.y = 0; }
-        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0; }
+        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0.0; }
         
         //prevent them from moving through walls
         if (pos.x < 0) { pos.x = 0; xVelocity = 0; }
-        else if (pos.x >= Board.MAX_X - imageX) { pos.x = Board.MAX_X - imageX; xVelocity = 0; }
+        else if (pos.x >= Board.MAX_X - imageX) { pos.x = Board.MAX_X - imageX; xVelocity = 0.0; }
         
         
         //if the player wants to move then let them
-        if (rightPressed && !leftPressed) { xVelocity += 10; }
-        else if (!rightPressed && leftPressed) { xVelocity -= 10; } 
+        if (rightPressed && !leftPressed) { xVelocity += 10.0; }
+        else if (!rightPressed && leftPressed) { xVelocity -= 10.0; } 
         
         //if player does not want to move or is indesive then slow them
         if ((rightPressed && leftPressed) || (!rightPressed && !leftPressed)) {
-        	 xVelocity = 0;
+        	 xVelocity = 0.0;
         }
         
        
-        
-        if (upPressed) { pos.translate(0, -1); }
-        
-        if (rightPressed) { pos.translate(1, 0); }
+
         
         //setting fastest speed allowed
         if (xVelocity > maxXVelocity) {xVelocity = maxXVelocity;}
@@ -121,7 +115,9 @@ public class Player extends Entity{ ;
         if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
         
         //apply the changes
-        pos.translate(xVelocity, yVelocity);
+        pos.x += xVelocity;
+        pos.y += yVelocity;
+        //pos.translate(xVelocity, yVelocity);
         
     }
     

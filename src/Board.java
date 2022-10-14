@@ -1,7 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 //import java.util.Random;
 import javax.swing.*;
 
@@ -26,7 +26,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     
     // objects that appear on the game board
     private Player player;
-    private ArrayList<Coin> coins;
+    //private ArrayList<Coin> coins;
     private ArrayList<Obstacle> obstacles;
     
     private Side[] sides;
@@ -42,7 +42,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
-        coins = populateCoins();
+        //coins = populateCoins();
         sides = new Side[4];
 //        obstacles = populateObstacles();
         
