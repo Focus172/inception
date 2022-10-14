@@ -14,6 +14,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // controls the size of the board
     public static final int MAX_X = 800;
     public static final int MAX_Y = 800;
+    
+    public static final int HEALTH_BAR_Y = 25;
 
     // suppress serialization warning
     private static final long serialVersionUID = 490905409104883233L;
@@ -27,7 +29,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
     public Board() {
         // set the game board size
-        setPreferredSize(new Dimension(MAX_X, MAX_Y));
+        setPreferredSize(new Dimension(MAX_X, MAX_Y+HEALTH_BAR_Y));
         // set the game board background color
         setBackground(new Color(232, 232, 232));
 
@@ -70,8 +72,26 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         //drawScore(g);
         player.draw(g, this);
         
-        //g.setColor(new Color(0,0,0));
-        //g.fillRect(0, 600, 400, 180);
+    	//drawing the health
+
+        // set the text to be displayed
+    	String text = player.health + "/100";
+            
+    	// we need to cast the Graphics to Graphics2D to draw nicer text
+
+        // set the text color and font
+        
+    	//filling green section
+        g.setColor(new Color(30, 201, 139));
+        g.fillRect(0, MAX_Y, (int)((player.health/100.0)*MAX_X), HEALTH_BAR_Y);
+        
+        //filling red section
+        g.setColor(new Color(200, 0, 0));
+        g.fillRect((int)((player.health/100.0)*MAX_X), MAX_Y, MAX_X, HEALTH_BAR_Y);
+        
+        g.setFont(new Font("Lato", Font.BOLD, 25));
+        g.setColor(new Color(0, 0, 0));
+        g.drawString(text, 0, MAX_Y+HEALTH_BAR_Y);
 
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();

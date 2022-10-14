@@ -18,7 +18,6 @@ public class Player {
     //has x and y position of player
     private Point pos;
     
-    private int score;
     private BufferedImage image;
     
     //handles continuous movement
@@ -40,7 +39,7 @@ public class Player {
     private int imageX;
     private int imageY;
     
-    private int health = 100;
+    public int health = 100;
     
     public Player() {
         // loads the image
@@ -48,7 +47,6 @@ public class Player {
 
         // initialize the state
         pos = new Point(0, 0);
-        score = 0;
     }
 
     private void loadImage() {
@@ -62,10 +60,7 @@ public class Player {
     }
 
     public void draw(Graphics g, ImageObserver observer) {
-        // with the Point class, note that pos.getX() returns a double, but 
-        // pos.x reliably returns an int. https://stackoverflow.com/a/30220114/4655368
-        // this is also where we translate board grid position into a canvas pixel
-        // position by multiplying by the tile size.
+        // with the Point class, note that pos.getX() returns a double
         
     	//draws the player
     	g.drawImage(
@@ -74,27 +69,6 @@ public class Player {
             pos.y, 
             observer
         );
-    	
-    	
-    	//drawing the health
-
-        // set the text to be displayed
-    	String text = health + "/100";
-            
-    	// we need to cast the Graphics to Graphics2D to draw nicer text
-        Graphics2D g2d = (Graphics2D) g;
-
-        
-        // set the text color and font
-        
-        int height = 25;
-        g2d.setColor(new Color(30, 201, 139));
-        g.fillRect(400, Board.MAX_Y-height, 400, height);
-        
-        g2d.setFont(new Font("Lato", Font.BOLD, 25));
-        g2d.setColor(new Color(0, 0, 0));
-        g2d.drawString(text, 400, Board.MAX_Y-1);
-
     	
     }
     
@@ -108,7 +82,6 @@ public class Player {
         if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
         
     }
-    
     
     public void keyReleased(KeyEvent e) {
     	//gets the code of the key being pressed
@@ -124,12 +97,11 @@ public class Player {
     public void tick() {
     	//called every tick
 
-
-        
         //apply gravity
         yVelocity += gravity;
         
-        health--;
+        //change health
+        if (health > 0) { health--; }
         
         //prevent them from moving through things
         if (pos.y < 0) { pos.y = 0; }
@@ -170,11 +142,8 @@ public class Player {
     	//TODO make colition detection to 
     	return pos.y == Board.MAX_Y-imageY;
     }
-    
-    
 
-    public String getScore() { return String.valueOf(score); }
+    public int getHealth() { return health; }
     public Point getPos() { return pos; }
-    public void addScore(int amount) { score += amount; }
     
 }
