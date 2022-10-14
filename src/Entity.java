@@ -13,10 +13,12 @@ public class Entity {
 	public Point pos; // position
 	public BufferedImage image; //image of the entity
 	public double size; //1 is the same size as the image file itself; multiplicative scaling
+	public Model model;
 	
-	public Entity (Point npos, double nsize, String nfileName) {
+	public Entity (Point npos, double nsize, String nfileName, Model nmodel) {
 		pos = npos;
 		size = nsize;
+		model = nmodel;
 		loadImage(nfileName);
 	}
 	
@@ -42,7 +44,19 @@ public class Entity {
     }
 	
 	public boolean collision(Entity other) {
-		return false;
+		boolean out = false;
+		Point otherPos = other.getPos();
+		BufferedImage otherImg = other.getImage();
+		if (this.model())
+		return out;
+	}
+	
+	public Point getPos() {
+		return pos;
+	}
+	
+	public BufferedImage getImage() {
+		return image;
 	}
 	
 }

@@ -11,11 +11,11 @@ import javax.imageio.ImageIO;
 
 public class Obstacle extends Entity {
 	
-	public Obstacle (Point npos, double nsize, String nfileName) {
-		super (npos, nsize, nfileName);
+	public Obstacle (Point npos, double nsize, String nfileName, Model nmodel) {
+		super (npos, nsize, nfileName, nmodel);
 	}
 	
-	public void draw(int x, int y, int rotation, Graphics g, ImageObserver observer) {
+	public void drawNew(int x, int y, int rotation, Graphics g, ImageObserver observer) {
         // with the Point class, note that pos.getX() returns a double, but 
         // pos.x reliably returns an int. https://stackoverflow.com/a/30220114/4655368
         // this is also where we translate board grid position into a canvas pixel
