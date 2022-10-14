@@ -1,3 +1,4 @@
+package Main;
 import java.awt.event.KeyEvent;
 import java.awt.Color;
 import java.awt.Font;
@@ -29,7 +30,12 @@ public class Player {
     public int yVelocity = 0;
     public int xVelocity = 0;
     
-    private final int gravity = 4;
+    public final int  maxXVelocity = 50;
+    public final int  maxYVelocity = 100;
+    
+    public boolean grounded = false;
+    
+    private final int gravity = 6;
     
     private int imageX;
     private int imageY;
@@ -124,12 +130,23 @@ public class Player {
     	//this should be changed to handle edges
         
     
-        System.out.println("yPos: " + pos.y);
-        System.out.println("yVelocity: " + yVelocity);
-    	
-        //if player is jumping then set their yVelocity Up
+
+
         
+        
+
+        
+        //apply gravity
         yVelocity += gravity;
+        
+        //prevent them from moving through things
+        if (pos.y < 0) { pos.y = 0; }
+        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0; }
+        
+        //prevent them from moving through walls
+        if (pos.x < 0) { pos.x = 0; xVelocity = 0; }
+        else if (pos.x >= Board.MAX_X - imageX) { pos.x = Board.MAX_X - imageX; xVelocity = 0; }
+        
         
         //if the player wants to move then let them
         if (rightPressed && !leftPressed) { xVelocity += 10; }
@@ -141,19 +158,18 @@ public class Player {
         }
         
        
-        //this needs a terminal velocity
-        if (pos.x < 0) { pos.x = 0; }
-        else if (pos.x >= Board.MAX_X) { pos.x = Board.MAX_X - 1; xVelocity = 0; }
-        
-        // prevent the player from moving off the edge of the board vertically
-        if (pos.y < 0) { pos.y = 0; }
-        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0; }
         
         
+        
+        //setting fastest speed allowed
+        if (xVelocity > maxXVelocity) {xVelocity = maxXVelocity;}
+        if (xVelocity < -maxXVelocity) {xVelocity = -maxXVelocity;}
+        if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
         
         //if you are on the ground then jump
-        if (upPressed && grounded()) { yVelocity -= 20; }
+        if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
         
+        //apply the changes
         pos.translate(xVelocity, yVelocity);
         
     }
