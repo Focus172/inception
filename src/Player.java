@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import java.awt.geom.Point2D.Double;
 
 
-public class Player extends Entity{ ;
+public class Player extends Entity { ;
 
     //has x and y position of player
     
@@ -112,7 +112,7 @@ public class Player extends Entity{ ;
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
         
         //if you are on the ground then jump
-        if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
+        if (upPressed && (grounded()) ) { yVelocity = -60; }
         
         //apply the changes
         pos.x += xVelocity;
@@ -122,8 +122,19 @@ public class Player extends Entity{ ;
     }
     
     private boolean grounded() {
+    	boolean isGrounded = false;
+    	for (Entity obj : Board.obstacles) {
+    		if (obj.collision(this)) {
+    			isGrounded = true;
+    		}
+    	}
+    	
+    	if (pos.y == Board.MAX_Y-imageY) {
+    		isGrounded = true;
+    	}
+    	
     	//TODO make colition detection to 
-    	return pos.y == Board.MAX_Y-imageY;
+    	return isGrounded;
     }
 
     public Point.Double getPos() { return pos; }

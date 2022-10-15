@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 
 
-
 public class Obstacle extends Entity {
 	
 	public Obstacle (Point.Double npos, double nsize, String nfileName, Model nmodel) {
