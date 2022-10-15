@@ -25,14 +25,13 @@ public class Model {
 	
 	public boolean collision (Model other) {
 		boolean out = false;
-		for (Polygon shape: shapes) {
+		for (Polygon shape : shapes) {
 			for (Polygon otherShape: other.shapes) {
 				Area area = new Area(shape);
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == true) {
 					out = true;
 				}
-				
 			}
 		}
 		return out;

@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 
 
-
 public class Obstacle extends Entity {
 	
 	public Obstacle (Point.Double npos, double nsize, String nfileName, Model nmodel) {
@@ -29,7 +28,8 @@ public class Obstacle extends Entity {
             (int)pos.x, // * Board.TILE_SIZE
             (int)pos.y, // * Board.TILE_SIZE
             observer
-        );
+        ); 
+        
     }
 	
 	public void rotate (double degrees) {

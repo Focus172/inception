@@ -27,7 +27,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // objects that appear on the game board
     private Player player;
     //private ArrayList<Coin> coins;
-    private ArrayList<Obstacle> obstacles;
+    public static Obstacle[] obstacles;
     
     private Side[] sides;
     
@@ -42,9 +42,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
-        //coins = populateCoins();
         sides = new Side[4];
-//        obstacles = populateObstacles();
         
         Obstacle[] obstacles = new Obstacle[2];
         obstacles[0] = new Obstacle(new Point.Double(100,100), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
@@ -52,6 +50,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         sides[0] = new Side(obstacles, 1);
  
         sides[1] = new Side(obstacles, 1);
+        
+        obstacles[2] = new Obstacle(new Point.Double(300,600), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
 
         
         // this timer will call the actionPerformed() method every DELAY ms
