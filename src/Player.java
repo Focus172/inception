@@ -25,8 +25,8 @@ public class Player extends Entity { ;
     public double yVelocity = 0;
     public double xVelocity = 0;
     
-    public final int maxXVelocity = 50;
-    public final int maxYVelocity = 100;
+    public final int  maxXVelocity = 20;
+    public final int  maxYVelocity = 20;
     
     public boolean grounded = false;
     
@@ -35,16 +35,34 @@ public class Player extends Entity { ;
     private final int IMAGE_X;
     private final int IMAGE_Y;
     
+    public static int[] xvals = new int[]{0,0,50,50};
+	public static int[] yvals = new int[] {0,50,50,0};
+    
+    private int width;
+    private int height;
+    
+    private Point.Double prev;
+    
     public int health = 100;
+    
+    public int timeSinceCol;
     
     public Player() {
     	
-    	super(new Point.Double(0,0), 1, "idlePlayer.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}), 0);
+    	super(new Point.Double(500,500), 1, "player.png", new Model(xvals, yvals), 0);
 
-
-    	//gets some of the private instance variables for later use
-    	IMAGE_X = image.getWidth();
-    	IMAGE_Y = image.getHeight();
+        // initialize the state
+        //score = 0;
+    	
+    	prev = new Point.Double(500,500);
+    	
+    	width = xvals[2]-xvals[0];
+    	height = yvals[2]-yvals[0];
+    
+    	imageX = super.image.getWidth();
+    	imageY = super.image.getHeight();
+    	
+    	timeSinceCol = 0;
     }
     
     public void keyPressed(KeyEvent e) {
@@ -95,11 +113,8 @@ public class Player extends Entity { ;
         
         //if player does not want to move or is indesive then slow them
         if ((rightPressed && leftPressed) || (!rightPressed && !leftPressed)) {
-        	 xVelocity = 0.0;
+        	 xVelocity *= 0.9;
         }
-        
-       
-
         
         //setting fastest speed allowed
         if (xVelocity > maxXVelocity) {xVelocity = maxXVelocity;}
@@ -109,6 +124,16 @@ public class Player extends Entity { ;
         //if you are on the ground then jump
         if (upPressed && grounded(obstacles) ) { yVelocity = -60; }
         
+        if (Math.abs(pos.x - prev.x) > 80) {
+        	pos.x = prev.x;
+        }
+        if (Math.abs(pos.y - prev.y) > 80) {
+        	pos.y = prev.y;
+        }
+        
+        prev.x = pos.x;
+        prev.y = pos.y;
+        
         //apply the changes
         
         pos.x += xVelocity;
@@ -116,9 +141,12 @@ public class Player extends Entity { ;
         
         model.move((int)pos.x, (int)pos.y,1);
         
-        boolean intersecting = false;
-        Entity intersector;
+        if (timeSinceCol > 0) {
+            timeSinceCol--;
+        }
         
+        boolean intersecting = false;
+        Entity intersector = null;
         if (obstacles != null) {
         for (int i = 0; i < obstacles.size(); i++) {
         	if (collision(obstacles.get(i)) != -1) {
@@ -126,15 +154,152 @@ public class Player extends Entity { ;
         		intersector = obstacles.get(i);
         	}
         }
-        while (intersecting == true) {
-        	int basex = (int) pos.x;
-        	int basey = (int) pos.y;
-        	for (int i = 0; i < 8; i++) {
-        		
+        if (intersector != null && timeSinceCol == 0) {
+        	int counter = 1;
+        	int basex = (int) pos.x + width;
+        	int basey = (int) pos.y + height;
+        	Point.Double point = new Point.Double (pos.x, pos.y);
+        	boolean[][] collisions = new boolean[3][3];
+        	for (int i = 0; i < 3; i++) {
+        		for (int j = 0; j < 3; j++) {
+        			collisions[i][j] = true;
+        		}
         	}
+        	
+        	double xpull = 0;
+            double ypull = 0;
+            double pulls = 0;
+        	
+            while (pulls == 0 && counter < 10000) {
+            	point.y -= counter;
+            	point.x -= counter;
+            	for (int i = 0; i < 3; i++) {
+//            		System.out.println("counter: " + counter);
+            		collisions[i][0] = (intersector.contains(point));
+            		point.x += counter;
+            		collisions[i][1] = (intersector.contains(point));
+            		point.x += counter;
+            		collisions[i][2] = (intersector.contains(point));
+            		point.x += counter * (-2);
+            		point.y += counter;
+            	}
+            	if (collisions[0][0]) {
+                	pulls++;
+                	xpull-=0.7071;
+                	ypull-=0.7071;
+                	System.out.println("0,0");
+                }
+                if (collisions[0][1]) {
+                	pulls++;
+                	ypull-=1;
+                	System.out.println("0,1");
+                }
+                if (collisions[0][2]) {
+                	pulls++;
+                	xpull+=0.7071;
+                	ypull-=0.7071;
+                	System.out.println("0,2");
+                }
+                if (collisions[1][0]) {
+                	pulls++;
+                	xpull-=1;
+                	System.out.println("1,0");
+                }
+                // no 1,1
+                if (collisions[1][2]) {
+                	pulls++;
+                	xpull+=1;
+                	System.out.println("1,2");
+                }
+                if (collisions[2][0]) {
+                	pulls++;
+                	xpull-=0.7071;
+                	ypull+=0.7071;
+                	System.out.println("2,0");
+                }
+                if (collisions[2][1]) {
+                	pulls++;
+                	ypull+=1;
+                	System.out.println("2,1");
+                }
+                if (collisions[2][2]) {
+                	pulls++;
+                	xpull+=0.7071;
+                	ypull+=0.7071;
+                	System.out.println("2,2");
+                }
+            	point.x = basex;
+            	point.y = basey;
+            	counter += 1;
+            }
+            
+            
+            
+            
+            
+            if (counter < 9000) {
+            	System.out.println(counter);
+            	xpull /= pulls;
+                
+                ypull /= pulls;
+                
+                System.out.println("xpulls: " + xpull);
+                System.out.println("ypulls: " + ypull);
+                double angle;
+                if (xpull!=0) {
+                	double slope = (double)ypull/(double)xpull;
+                	if (slope != 0) {
+                		System.out.println("slope: " + slope);
+                    	slope = -1.0/slope;
+                    	angle = Math.atan(slope);
+                    	System.out.println("angle1 " + angle);
+                    }
+                    else {
+                    	angle = Math.toRadians(90);
+                    	System.out.println("angle2 " + angle);
+                    }
+                }
+                else {
+                	angle = 0;
+                	System.out.println("angle3 " + angle);
+                }
+                
+                
+                
+                
+                
+                
+                double hyp = Math.sqrt(xpull*xpull + ypull*ypull);
+                
+                
+                System.out.println("angle " + angle);
+                
+                
+                
+                xVelocity = xVelocity*Math.cos(2*angle);
+                yVelocity = yVelocity*Math.cos(2*angle + Math.toRadians(180));
+            }
+            
+            else {
+            	xVelocity = xVelocity*(-1);
+                yVelocity = yVelocity*(-1);
+            }
+            
+            
+            
+            
+            pos.x = prev.x + xVelocity * 2;
+            pos.y = prev.y + yVelocity * 2;
+            
+            
+//            System.out.println("matrix: ");
+//            System.out.println(collisions.toString());
+            
+            timeSinceCol = 5;
         }
         }
         
+        System.out.println(pos.x + ", " + pos.y);
         
         //pos.translate(xVelocity, yVelocity);
         

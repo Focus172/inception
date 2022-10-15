@@ -152,4 +152,8 @@ public class Entity {
 	    return rotatedImage;
 	}
 	
+	public boolean contains(Point.Double pos) {
+		return model.contains(pos);
+	}
+	
 }

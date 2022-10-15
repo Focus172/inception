@@ -46,11 +46,11 @@ public class Model {
 				double height = originalShapes[j].ypoints[i] - originaly;
 				double width = originalShapes[j].xpoints[i] - originalx;
 				double radius = Math.sqrt(height*height + width*width);
-				System.out.println("radius: " + radius);
+//				System.out.println("radius: " + radius);
 				shapes[j].ypoints[i] = (int)(-height * cos + width * sin + y);
 				shapes[j].xpoints[i] = (int)(height * sin + width * cos + x);
-				System.out.println(height * cos + width * sin + " + " + y);
-				System.out.println(height * sin + width * cos + " + " + x);
+//				System.out.println(height * cos + width * sin + " + " + y);
+//				System.out.println(height * sin + width * cos + " + " + x);
 			}
 		}
 	}
@@ -63,7 +63,7 @@ public class Model {
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == false) {
 					out = true;
-					//System.out.println("CORRECT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCORRECT");
+					System.out.println("CORRECT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCORRECT");
 				}
 			}
 		}
@@ -118,6 +118,16 @@ public class Model {
 		
         } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); };
 		
+	}
+	
+	public boolean contains (Point.Double pos) {
+		boolean out = false;
+		for (Polygon shape: shapes) {
+			if (shape.contains(pos.x,pos.y)) {
+				out = true;
+			}
+		}
+		return out;
 	}
 	
 	
