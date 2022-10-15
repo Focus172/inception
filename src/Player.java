@@ -14,6 +14,7 @@ public class Player extends Entity { ;
     public boolean downPressed = false;
     public boolean leftPressed = false;
     public boolean rightPressed = false;
+    public boolean spacePressed = false;
     
     public double yVelocity = 0;
     public double xVelocity = 0;
@@ -45,6 +46,7 @@ public class Player extends Entity { ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = true; }
         if (key == KeyEvent.VK_DOWN) { downPressed = true; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = true; } 
         
     }
     
@@ -56,6 +58,7 @@ public class Player extends Entity { ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = false; }  
         if (key == KeyEvent.VK_DOWN) { downPressed = false; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = false; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = false; } 
         
     }
 
@@ -66,11 +69,18 @@ public class Player extends Entity { ;
         yVelocity += gravity;
         
         //change health
-        if (health > 0) { health--; }
+        //if (health > 0) { health--; }
+        
+        boolean grounded = ground();
+        if (spacePressed) {
+        	grounded = true;
+        	health--;
+        }
+        
         
         //prevent them from moving through things
         if (pos.y < 0) { pos.y = 0;}
-        else if (pos.y >= Board.MAX_Y - IMAGE_Y) { pos.y = Board.MAX_Y - IMAGE_Y; yVelocity = 0.0; }
+        else if (grounded) { yVelocity = 0.0; } //pos.y = Board.MAX_Y - IMAGE_Y;
         
         //if the player wants to move then let them
         if (rightPressed && !leftPressed) { xVelocity += 10.0; }
@@ -93,11 +103,14 @@ public class Player extends Entity { ;
         if (xVelocity < -maxXVelocity) {xVelocity = -maxXVelocity;}
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
 
-        boolean grounded = grounded();
+        //moves object to moveable ground if it can and if it is in the air returns false
+        
         
         //if you are on the ground then you can't go up unless you jump
-        if (grounded) { yVelocity = 0; }
-        else if (upPressed) { yVelocity = -60; }
+        if (grounded) {
+        	yVelocity = 0;
+        	if (upPressed) { yVelocity = -60; }
+        }
         
         //apply the changes
         pos.x += xVelocity;
@@ -105,12 +118,23 @@ public class Player extends Entity { ;
         
     }
     
-    private boolean grounded() {
+    //checks if the player is on the ground the player is on the ground then return true
+    private boolean ground() {
+    	boolean onGround = false;
+    	
+    	for (Obstacle obby : Board.obstacles) {
+    		if (this.collision(obby)) {
+    			onGround = true;
+    		}
+    	}
+    	if (pos.y >= Board.MAX_Y-IMAGE_Y) { onGround = true; }
+    	
+    	if (onGround) {
+    		//run the moving out of object code
+    	}
     	
     	
-    	
-    	
-    	return pos.y >= Board.MAX_Y-IMAGE_Y;
+    	return onGround;
     }
 
     public Point.Double getPos() { return pos; }

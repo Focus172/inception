@@ -70,9 +70,6 @@ public class Entity {
     }
 	
 	public boolean collision(Entity other) {
-		//boolean out = false;
-		//Point.Double otherPos = other.getPos();
-		//BufferedImage otherImg = other.getImage();
 		return MODEL.collision(other.MODEL);
 	}
 	
