@@ -48,8 +48,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         Obstacle[] obstacles = new Obstacle[2];
         Obstacle[] obstacles2 = new Obstacle[0];
-        obstacles[0] = new Obstacle(new Point.Double(400,200), 1, "player.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
-        obstacles[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}));
+        obstacles[0] = new Obstacle(new Point.Double(400,200), 1, "player.png", new Model(new int[]{400,450,450,400}, new int[]{200,200,250,250}));
+        obstacles[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,450,450,400}, new int[]{150,150,200,200}));
         sides[0] = new Side(obstacles, 0);
  
         sides[1] = new Side(obstacles2, 1);

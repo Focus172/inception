@@ -63,7 +63,7 @@ public class Model {
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == false) {
 					out = true;
-					System.out.println("CORRECT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCORRECT");
+					System.out.println("CORRECT");
 				}
 				
 			}
@@ -119,6 +119,16 @@ public class Model {
 		
         } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); };
 		
+	}
+	
+	public boolean contains (Point.Double pos) {
+		boolean out = false;
+		for (Polygon shape: shapes) {
+			if (shape.contains(pos)) {
+				out = true;
+			}
+		}
+		return out;
 	}
 	
 	
