@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Board extends JPanel implements ActionListener, KeyListener {
 
     // controls the frame rate by setting delay between ticks
-    private final int DELAY = 100;
+    private final int DELAY = 25;
     private final double FPS = 1000.0 / DELAY;
     
     // controls the size of the board
