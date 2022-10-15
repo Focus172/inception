@@ -43,7 +43,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // initialize the game state
         player = new Player();
         
-
+        sides = new Side[4];
         
         // this timer will call the actionPerformed() method every DELAY ms
         //somehow this references actionPerformed()
@@ -81,14 +81,14 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     		if (player.downPressed && !player.upPressed) {
     			if (selctedLevel < numberOfLevels && levelChangeCooldown <= 0) {
     				selctedLevel++;
-    				levelChangeCooldown = 1;
+    				levelChangeCooldown = 5;
     			}
     		}
     		
     		if (player.upPressed && !player.downPressed) {
     			if (selctedLevel > 1 && levelChangeCooldown <= 0) {
     				selctedLevel--;
-    				levelChangeCooldown = 1;
+    				levelChangeCooldown = 5;
     			}
     		}
 
@@ -113,10 +113,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     			
     			levelNumber = selctedLevel;
     			
-    			Obstacle[] obstacles1 = new Obstacle[] {
-    					new Obstacle(new Point.Double(400,200), 1, "player.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210})),
-    					new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}))
-    			};
+    			Obstacle[] obstacles1 = new Obstacle[2];
+    			obstacles1[0] = new Obstacle(new Point.Double(400,200), 1, "player.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
+    			obstacles1[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}));
     			sides[0] = new Side(obstacles1, 0);
     	        
     	        Obstacle[] obstacles2 = new Obstacle[0];
