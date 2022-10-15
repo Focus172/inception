@@ -1,19 +1,7 @@
-
 import java.awt.event.KeyEvent;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Polygon;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import java.awt.geom.Point2D.Double;
 
 
 public class Player extends Entity { ;
@@ -21,7 +9,6 @@ public class Player extends Entity { ;
     //has x and y position of player
     
     //private int score;
-    private BufferedImage image;
     
     //handles continuous movement
     public boolean upPressed = false;
@@ -32,26 +19,25 @@ public class Player extends Entity { ;
     public double yVelocity = 0;
     public double xVelocity = 0;
     
-    public final int  maxXVelocity = 50;
-    public final int  maxYVelocity = 100;
+    public final int maxXVelocity = 50;
+    public final int maxYVelocity = 100;
     
     public boolean grounded = false;
     
     private final double gravity = 6;
     
-    private int imageX;
-    private int imageY;
+    private final int IMAGE_X;
+    private final int IMAGE_Y;
     
     public int health = 100;
     
     public Player() {
     	super(new Point.Double(0,0), 1, "player.png", new Model(new Polygon[0]));
 
-        // initialize the state
-        //score = 0;
-    
-    	imageX = super.image.getWidth();
-    	imageY = super.image.getHeight();
+
+    	//gets some of the private instance variables for later use
+    	IMAGE_X = image.getWidth();
+    	IMAGE_Y = image.getHeight();
     }
     
     public void keyPressed(KeyEvent e) {
@@ -87,11 +73,11 @@ public class Player extends Entity { ;
         
         //prevent them from moving through things
         if (pos.y < 0) { pos.y = 0; }
-        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0.0; }
+        else if (pos.y >= Board.MAX_Y - IMAGE_Y) { pos.y = Board.MAX_Y - IMAGE_Y; yVelocity = 0.0; }
         
         //prevent them from moving through walls
         if (pos.x < 0) { pos.x = 0; xVelocity = 0; }
-        else if (pos.x >= Board.MAX_X - imageX) { pos.x = Board.MAX_X - imageX; xVelocity = 0.0; }
+        else if (pos.x >= Board.MAX_X - IMAGE_X) { pos.x = Board.MAX_X - IMAGE_X; xVelocity = 0.0; }
         
         
         //if the player wants to move then let them

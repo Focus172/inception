@@ -31,7 +31,7 @@ public class Side {
 	}
 	
 	public void draw(Graphics g, ImageObserver observer) {
-		for (Obstacle obby: obstacles) {
+		for (Obstacle obby : obstacles) {
 			obby.draw(g, observer);
 		}
 	}

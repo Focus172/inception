@@ -28,7 +28,8 @@ public class Obstacle extends Entity {
             (int)pos.x, // * Board.TILE_SIZE
             (int)pos.y, // * Board.TILE_SIZE
             observer
-        );
+        ); 
+        
     }
 	
 	public void rotate (int degrees) {
