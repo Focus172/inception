@@ -59,8 +59,8 @@ public class Player extends Entity { ;
     	width = xvals[2]-xvals[0];
     	height = yvals[2]-yvals[0];
     
-    	imageX = super.image.getWidth();
-    	imageY = super.image.getHeight();
+    	IMAGE_X = super.image.getWidth();
+    	IMAGE_Y = super.image.getHeight();
     	
     	timeSinceCol = 0;
     }
