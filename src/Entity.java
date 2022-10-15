@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.lang.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.AffineTransformop;
+import java.awt.image.AffineTransformOp;
 
 
 public class Entity {
@@ -43,7 +43,7 @@ public class Entity {
         // this is also where we translate board grid position into a canvas pixel
         // position by multiplying by the tile size.
 		BufferedImage copiedImage = loadImage(fileName);
-		double rads = Math.toRadians(90);
+		double rads = Math.toRadians(-rotation);
 		double sin = Math.abs(Math.sin(rads));
 		double cos = Math.abs(Math.cos(rads));
 		int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);

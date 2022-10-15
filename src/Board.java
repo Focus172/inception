@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Board extends JPanel implements ActionListener, KeyListener {
 
     // controls the frame rate by setting delay between ticks
-    private final int DELAY = 25;
+    private final int DELAY = 50;
     private final double FPS = 1000.0 / DELAY;
     
     // controls the size of the board
@@ -47,7 +47,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 //        obstacles = populateObstacles();
         
         Obstacle[] obstacles = new Obstacle[2];
-        obstacles[0] = new Obstacle(new Point.Double(100,100), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[0] = new Obstacle(new Point.Double(100,200), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         obstacles[1] = new Obstacle(new Point.Double(100,150), 1, "coin.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         sides[0] = new Side(obstacles, 1);
  
@@ -69,7 +69,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         // updates each objects each tick
         player.tick();
-        sides[0].rotate(90);
+        sides[0].rotate(1);
         //object.tck();
 
         //this updates all the graphics by calling the paintComponent() method
