@@ -29,7 +29,7 @@ public class Player extends Entity { ;
     public int health = 100;
     
     public Player() {
-    	super(new Point.Double(0,0), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
+    	super(new Point.Double(0,0), 1, "playerIdle.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
 
 
     	//gets some of the private instance variables for later use
@@ -92,10 +92,8 @@ public class Player extends Entity { ;
         if (xVelocity > maxXVelocity) {xVelocity = maxXVelocity;}
         if (xVelocity < -maxXVelocity) {xVelocity = -maxXVelocity;}
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
-        
-        //if you are on the ground then jump
-        if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
-        
+
+
         boolean grounded = grounded();
         
         //if you are on the ground then you can't go up unless you jump
@@ -110,8 +108,11 @@ public class Player extends Entity { ;
     }
     
     private boolean grounded() {
-    	//TODO make colition detection to 
-    	return pos.y == Board.MAX_Y-imageY;
+    	
+    	
+    	
+    	
+    	return pos.y == Board.MAX_Y-IMAGE_Y;
     }
 
     public Point.Double getPos() { return pos; }

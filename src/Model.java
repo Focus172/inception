@@ -14,11 +14,11 @@ public class Model {
 
 	public Polygon[] shapes;
 	
-	public Model (Polygon[]nshapes) {
+	public Model (Polygon[] nshapes) {
 		shapes = nshapes;
 	}
 	
-	public Model (int[] xvals, int[]yvals) {
+	public Model (int[] xvals, int[] yvals) {
 		shapes = new Polygon[1];
 		shapes[0] = new Polygon(xvals, yvals, xvals.length);
 	}
@@ -26,6 +26,7 @@ public class Model {
 	public boolean collision (Model other) {
 		
 		boolean out = false;
+		
 		for (Polygon shape : shapes) {
 			for (Polygon otherShape : other.shapes) {
 				Area area = new Area(shape);

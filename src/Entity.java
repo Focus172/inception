@@ -16,13 +16,13 @@ public class Entity {
 	public Point.Double pos; // position
 	public BufferedImage image; //image of the entity
 	public double size; //1 is the same size as the image file itself; multiplicative scaling
-	public Model model;
+	public final Model MODEL;
 	public String fileName;
 	
 	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel) {
 		pos = npos;
 		size = nsize;
-		model = nmodel;
+		MODEL = nmodel;
 		image = loadImage(nfileName);
 		fileName = nfileName;
 	}
@@ -41,6 +41,7 @@ public class Entity {
         // pos.x reliably returns an int. https://stackoverflow.com/a/30220114/4655368
         // this is also where we translate board grid position into a canvas pixel
         // position by multiplying by the tile size.
+		
 		BufferedImage copiedImage = loadImage(fileName);
 		double rads = Math.toRadians(90);
 		double sin = Math.abs(Math.sin(rads));
@@ -66,7 +67,7 @@ public class Entity {
 		//boolean out = false;
 		//Point.Double otherPos = other.getPos();
 		//BufferedImage otherImg = other.getImage();
-		return this.model.collision(other.model);
+		return MODEL.collision(other.MODEL);
 	}
 	
 	public Point.Double getPos() {

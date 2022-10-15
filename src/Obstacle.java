@@ -3,10 +3,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.Point;
-import java.awt.Polygon;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 
 
@@ -14,6 +10,13 @@ public class Obstacle extends Entity {
 	
 	public Obstacle (Point.Double npos, double nsize, String nfileName, Model nmodel) {
 		super (npos, nsize, nfileName, nmodel);
+	}
+	
+	public boolean tick() {
+		rotate(Board.ROTATION);
+		//draw();
+		
+		return true;
 	}
 	
 	public void drawNew(int x, int y, int rotation, Graphics g, ImageObserver observer) {
@@ -42,7 +45,7 @@ public class Obstacle extends Entity {
 		newPoint.y = centerY + (Math.cos(Math.toRadians(degrees)) * (pos.y - centerY) + (pos.x - centerX) * Math.sin(Math.toRadians(degrees)));
 		
 		pos = newPoint;
-		model.rotate(degrees);
+		MODEL.rotate(degrees);
 	}
 	
 }
