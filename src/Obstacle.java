@@ -34,9 +34,9 @@ public class Obstacle extends Entity {
 	
 	public void rotate (double degrees, double rotation) {
 		Point.Double newPoint = new Point.Double(pos.x,pos.y);
-		System.out.println(newPoint.x + ", " + newPoint.y);
+//		System.out.println(newPoint.x + ", " + newPoint.y);
 		double centerX = (double)Board.MAX_X/2;
-		System.out.println(centerX);
+//		System.out.println(centerX);
 		double centerY = (double)Board.MAX_Y/2;
 		newPoint.x = centerX + (Math.cos(Math.toRadians(degrees)) * (pos.x - centerX) - (pos.y - centerY) * Math.sin(Math.toRadians(degrees)));
 		newPoint.y = centerY + (Math.cos(Math.toRadians(degrees)) * (pos.y - centerY) + (pos.x - centerX) * Math.sin(Math.toRadians(degrees)));

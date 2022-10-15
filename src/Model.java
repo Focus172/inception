@@ -46,11 +46,11 @@ public class Model {
 				double height = originalShapes[j].ypoints[i] - originaly;
 				double width = originalShapes[j].xpoints[i] - originalx;
 				double radius = Math.sqrt(height*height + width*width);
-				System.out.println("radius: " + radius);
+//				System.out.println("radius: " + radius);
 				shapes[j].ypoints[i] = (int)(-height * cos + width * sin + y);
 				shapes[j].xpoints[i] = (int)(height * sin + width * cos + x);
-				System.out.println(height * cos + width * sin + " + " + y);
-				System.out.println(height * sin + width * cos + " + " + x);
+//				System.out.println(height * cos + width * sin + " + " + y);
+//				System.out.println(height * sin + width * cos + " + " + x);
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class Model {
 	public boolean contains (Point.Double pos) {
 		boolean out = false;
 		for (Polygon shape: shapes) {
-			if (shape.contains(pos)) {
+			if (shape.contains(pos.x,pos.y)) {
 				out = true;
 			}
 		}
