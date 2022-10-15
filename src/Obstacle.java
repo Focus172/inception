@@ -32,7 +32,7 @@ public class Obstacle extends Entity {
         );
     }
 	
-	public void rotate (double degrees) {
+	public void rotate (double degrees, double rotation) {
 		Point.Double newPoint = new Point.Double(pos.x,pos.y);
 		System.out.println(newPoint.x + ", " + newPoint.y);
 		double centerX = (double)Board.MAX_X/2;
@@ -42,7 +42,9 @@ public class Obstacle extends Entity {
 		newPoint.y = centerY + (Math.cos(Math.toRadians(degrees)) * (pos.y - centerY) + (pos.x - centerX) * Math.sin(Math.toRadians(degrees)));
 		
 		pos = newPoint;
-		model.rotate(degrees);
+//		model.rotate(degrees);
+		model.move(pos.x, pos.y, rotation);
+		
 	}
 	
 }

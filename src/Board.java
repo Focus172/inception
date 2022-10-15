@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Board extends JPanel implements ActionListener, KeyListener {
 
     // controls the frame rate by setting delay between ticks
-    private final int DELAY = 50;
+    private final int DELAY = 100;
     private final double FPS = 1000.0 / DELAY;
     
     // controls the size of the board
@@ -47,13 +47,14 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 //        obstacles = populateObstacles();
         
         Obstacle[] obstacles = new Obstacle[2];
-        obstacles[0] = new Obstacle(new Point.Double(100,200), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
-        obstacles[1] = new Obstacle(new Point.Double(100,150), 1, "coin.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        Obstacle[] obstacles2 = new Obstacle[0];
+        obstacles[0] = new Obstacle(new Point.Double(400,200), 1, "player.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
+        obstacles[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}));
         sides[0] = new Side(obstacles, 1);
  
-        sides[1] = new Side(obstacles, 1);
-        sides[2] = new Side(obstacles, 1);
-        sides[3] = new Side(obstacles, 1);
+        sides[1] = new Side(obstacles2, 1);
+        sides[2] = new Side(obstacles2, 1);
+        sides[3] = new Side(obstacles2, 1);
 
         
         // this timer will call the actionPerformed() method every DELAY ms

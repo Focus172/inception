@@ -121,7 +121,7 @@ public class Player extends Entity{ ;
         pos.x += xVelocity;
         pos.y += yVelocity;
         
-        model.move((int)pos.x, (int)pos.y);
+        model.move((int)pos.x, (int)pos.y,1);
         
         boolean intersecting = false;
         for (Obstacle obstacle: obstacles) {
