@@ -18,15 +18,17 @@ public class Model {
 		shapes = nshapes;
 	}
 	
-	public Model (int[]xvals, int[]yvals) {
+	public Model (int[] xvals, int[]yvals) {
 		shapes = new Polygon[1];
 		shapes[0] = new Polygon(xvals, yvals, xvals.length);
 	}
 	
 	public boolean collision (Model other) {
+		
 		boolean out = false;
 		for (Polygon shape : shapes) {
-			for (Polygon otherShape: other.shapes) {
+			for (Polygon otherShape : other.shapes) {
+				System.out.println();
 				Area area = new Area(shape);
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == true) {
@@ -35,7 +37,9 @@ public class Model {
 			}
 		}
 		return out;
+		
 	}
+
 	
 	public void rotate(double degrees) {
 		for (int i = 0; i < shapes.length; i++) {

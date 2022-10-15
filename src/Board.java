@@ -20,14 +20,12 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // suppress serialization warning
     private static final long serialVersionUID = 490905409104883233L;
     
-    // keep a reference to the timer object that triggers actionPerformed() in
-    // case we need access to it in another method
+    // keep a timer object that triggers actionPerformed() can be access in other method
     private Timer timer;
-    
-    // objects that appear on the game board
     private Player player;
-    //private ArrayList<Coin> coins;
-    public static Obstacle[] obstacles;
+    
+    //the obstacle array
+    public static Obstacle[] obstacles = new Obstacle[2];
     
     private Side[] sides;
     
@@ -44,14 +42,12 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         player = new Player();
         sides = new Side[4];
         
-        Obstacle[] obstacles = new Obstacle[2];
         obstacles[0] = new Obstacle(new Point.Double(100,100), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         obstacles[1] = new Obstacle(new Point.Double(100,150), 1, "coin.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         sides[0] = new Side(obstacles, 1);
- 
-        sides[1] = new Side(obstacles, 1);
+        //sides[1] = new Side(obstacles, 1);
         
-        obstacles[2] = new Obstacle(new Point.Double(300,600), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
+        //obstacles[2] = new Obstacle(new Point.Double(300,600), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
 
         
         // this timer will call the actionPerformed() method every DELAY ms
@@ -69,11 +65,17 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         // updates each objects each tick
         player.tick();
-        sides[0].rotate(90);
+        sides[0].rotate(1);
         //object.tck();
 
         //this updates all the graphics by calling the paintComponent() method
         repaint();
+    }
+    
+    private void tickAll() {
+    	player.tick();
+    	sides[0].rotate(1);
+    	repaint();
     }
     
     
@@ -136,93 +138,6 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     	player.keyReleased(release);
     }
     
-    private void tickAll() {
-    	player.tick();
-    	
-    }
-
-    /*
-    private void drawScore(Graphics g) {
-        // set the text to be displayed
-        String text = "$" + player.getScore();
-        // we need to cast the Graphics to Graphics2D to draw nicer text
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(
-            RenderingHints.KEY_TEXT_ANTIALIASING,
-            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2d.setRenderingHint(
-            RenderingHints.KEY_RENDERING,
-            RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(
-            RenderingHints.KEY_FRACTIONALMETRICS,
-            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        // set the text color and font
-        g2d.setColor(new Color(30, 201, 139));
-        g2d.setFont(new Font("Lato", Font.BOLD, 25));
-        // draw the score in the bottom center of the screen
-        // https://stackoverflow.com/a/27740330/4655368
-        FontMetrics metrics = g2d.getFontMetrics(g2d.getFont());
-        // the text will be contained within this rectangle.
-        // here I've sized it to be the entire bottom row of board tiles
-        Rectangle rect = new Rectangle(0, TILE_SIZE * (MAX_Y - 1), TILE_SIZE * MAX_X, TILE_SIZE);
-        // determine the x coordinate for the text
-        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-        // determine the y coordinate for the text
-        // (note we add the ascent, as in java 2d 0 is top of the screen)
-        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        // draw the string
-        g2d.drawString(text, x, y);
-    }
-    */
-
-    /*
-    private ArrayList<Coin> populateCoins() {
-        ArrayList<Coin> coinList = new ArrayList<>();
-        Random rand = new Random();
-
-        // create the given number of coins in random positions on the board.
-        // note that there is not check here to prevent two coins from occupying the same
-        // spot, nor to prevent coins from spawning in the same spot as the player
-        for (int i = 0; i < NUM_COINS; i++) {
-            int coinX = rand.nextInt(MAX_X);
-            int coinY = rand.nextInt(MAX_Y);
-            coinList.add(new Coin(coinX, coinY));
-        }
-
-        return coinList;
-    }
+   
     
-    private ArrayList<Coin> populateObstacles() {
-        ArrayList<Coin> obstacleList = new ArrayList<>();
-        Random rand = new Random();
-
-        // create the given number of coins in random positions on the board.
-        // note that there is not check here to prevent two coins from occupying the same
-        // spot, nor to prevent coins from spawning in the same spot as the player
-        for (int i = 0; i < NUM_COINS; i++) {
-            int topLeft = rand.nextInt();
-            int coinY = rand.nextInt(ROWS);
-//            obstacleList.add(new Coin(coinX, coinY));
-        }
-
-        return obstacleList;
-    }
-
-
-    private void collectCoins() {
-        // allow player to pickup coins
-        ArrayList<Coin> collectedCoins = new ArrayList<>();
-        for (Coin coin : coins) {
-            // if the player is on the same tile as a coin, collect it
-            if (player.getPos().equals(coin.getPos())) {
-                // give the player some points for picking this up
-                player.addScore(100);
-                collectedCoins.add(coin);
-            }
-        }
-        // remove collected coins from the board
-        coins.removeAll(collectedCoins);
-    }
-    */
-
 }

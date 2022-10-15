@@ -98,7 +98,7 @@ public class Player extends Entity { ;
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
         
         //if you are on the ground then jump
-        if (upPressed && (grounded()) ) { yVelocity = -60; }
+        if (upPressed && grounded()) { yVelocity = -60; }
         
         //apply the changes
         pos.x += xVelocity;
@@ -109,7 +109,8 @@ public class Player extends Entity { ;
     
     private boolean grounded() {
     	boolean isGrounded = false;
-    	for (Entity obj : Board.obstacles) {
+    	for (Obstacle obj : Board.obstacles) {
+    		
     		if (obj.collision(this)) {
     			isGrounded = true;
     		}
