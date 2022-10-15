@@ -6,6 +6,10 @@ import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.lang.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.AffineTransformop;
 
 
 public class Entity {
@@ -14,29 +18,45 @@ public class Entity {
 	public BufferedImage image; //image of the entity
 	public double size; //1 is the same size as the image file itself; multiplicative scaling
 	public Model model;
+	public String fileName;
 	
 	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel) {
 		pos = npos;
 		size = nsize;
 		model = nmodel;
-		loadImage(nfileName);
+		image = loadImage(nfileName);
+		fileName = nfileName;
 	}
 	
-	public void loadImage(String fileName) {
+	public BufferedImage loadImage(String fileName) {
         
     	//loads the image for the player
     	try { image = ImageIO.read(new File("images/" + fileName));
         } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); }
+		return image;
     
     }
 	
-	public void draw(Graphics g, ImageObserver observer) {
+	public void draw(Graphics g, ImageObserver observer, double rotation) {
         // with the Point class, note that pos.getX() returns a double, but 
         // pos.x reliably returns an int. https://stackoverflow.com/a/30220114/4655368
         // this is also where we translate board grid position into a canvas pixel
         // position by multiplying by the tile size.
+		BufferedImage copiedImage = loadImage(fileName);
+		double rads = Math.toRadians(90);
+		double sin = Math.abs(Math.sin(rads));
+		double cos = Math.abs(Math.cos(rads));
+		int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+		int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+		BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
+		AffineTransform at = new AffineTransform();
+		at.translate(w / 2, h / 2);
+		at.rotate(rads,0, 0);
+		at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+		final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+		rotateOp.filter(image,rotatedImage);
         g.drawImage(
-            image, 
+            rotatedImage, 
             (int)pos.x, 
             (int)pos.y, 
             observer

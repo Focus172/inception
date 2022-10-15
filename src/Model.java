@@ -48,10 +48,13 @@ public class Model {
 		}
 	}
 	
-	private Point.Double transform (Point.Double point, double degrees) {
-		point.x = (Math.cos(Math.toRadians(degrees)) * point.x - point.y * Math.sin(Math.toRadians(degrees)));
-		point.y = (Math.cos(Math.toRadians(degrees)) * point.y + point.x * Math.sin(Math.toRadians(degrees)));
-		return point;
+	private Point.Double transform (Point.Double pos, double degrees) {
+		Point.Double newPoint = new Point.Double(pos.x,pos.y);
+		double centerX = (double)Board.MAX_X/2;
+		double centerY = (double)Board.MAX_Y/2;
+		newPoint.x = centerX + (Math.cos(Math.toRadians(degrees)) * (pos.x - centerX) - (pos.y - centerY) * Math.sin(Math.toRadians(degrees)));
+		newPoint.y = centerY + (Math.cos(Math.toRadians(degrees)) * (pos.y - centerY) + (pos.x - centerX) * Math.sin(Math.toRadians(degrees)));
+		return newPoint;
 	}
 	
 	
