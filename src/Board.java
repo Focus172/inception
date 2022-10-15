@@ -29,6 +29,12 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     //private ArrayList<Coin> coins;
     public static Obstacle[] obstacles;
     
+    
+    private boolean upPressed = false;
+    private boolean downPressed = false;
+    private boolean spacePressed = false;
+    
+    
     private Side[] sides;
     
 
@@ -42,16 +48,10 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
-        //coins = populateCoins();
+
+        
         sides = new Side[4];
         
-        Obstacle[] obstacles = new Obstacle[2];
-        obstacles[0] = new Obstacle(new Point.Double(100,100), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
-        obstacles[1] = new Obstacle(new Point.Double(100,150), 1, "coin.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
-        sides[0] = new Side(obstacles, 1);
- 
-        sides[1] = new Side(obstacles, 1);
-
         
         // this timer will call the actionPerformed() method every DELAY ms
         //somehow this references actionPerformed()
@@ -72,15 +72,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // use this space to update the state of your game or animation
         // before the graphics are redrawn.
     	
-    	
-
-    	
-    	
-    	
+    	//level 0 is title screen
     	if (levelNumber == 0) {
     		//show the level select
-    		
-    		//this needs to be redone to not rely on player
     		
     		if (levelChangeCooldown > 0) { levelChangeCooldown--; }
     		
@@ -88,14 +82,14 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     		if (downPressed && !upPressed) {
     			if (selctedLevel < numberOfLevels && levelChangeCooldown <= 0) {
     				selctedLevel++;
-    				levelChangeCooldown = 30;
+    				levelChangeCooldown = 20;
     			}
     		} 
     		
     		if (upPressed && !downPressed) {
     			if (selctedLevel > 1 && levelChangeCooldown <= 0) {
     				selctedLevel--;
-    				levelChangeCooldown = 30;
+    				levelChangeCooldown = 20;
     			}
     		}
 
@@ -122,8 +116,13 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     			
     			levelNumber = selctedLevel;
     			
+    			//does stuff from 120-680
+    			
+    			//affineTransform.rotate(Math.toRadians(angle), m_imageWidth/2, m_imageHeight/2); 
+    			//obstacles1[2] = new Obstacle(new Point.Double(120,680), 1, "background.png", new Model(new int[]{0,800,0,800}, new int[]{0,0,120,120}));
+    			
     			Obstacle[] obstacles1 = new Obstacle[2];
-    			obstacles1[0] = new Obstacle(new Point.Double(400,200), 1, "player.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
+    			obstacles1[0] = new Obstacle(new Point.Double(400,200), 1, "idlePlayer.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
     			obstacles1[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}));
     			sides[0] = new Side(obstacles1, 0);
     	        
@@ -157,11 +156,10 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     		}
     		
     		
-    		
+    	//this runs the game loop	
     	} else {
     		// updates each objects each tick
     		tickAll();
-            //object.tick();
 
             //this updates all the graphics by calling the paintComponent() method
             repaint();
@@ -240,10 +238,6 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     public void keyTyped(KeyEvent e) {
         // this is not used but must be defined as part of the KeyListener interface
     }
-    
-    private boolean upPressed = false;
-    private boolean downPressed = false;
-    private boolean spacePressed = false;
 
     @Override
     public void keyPressed(KeyEvent press) {
@@ -288,6 +282,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     	
     	player.tick(obstacles);
     	
+    	//object.tick();
     }
 
 }

@@ -39,7 +39,7 @@ public class Player extends Entity { ;
     
     public Player() {
     	
-    	super(new Point.Double(0,0), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}), 0);
+    	super(new Point.Double(0,0), 1, "idlePlayer.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}), 0);
 
 
     	//gets some of the private instance variables for later use
