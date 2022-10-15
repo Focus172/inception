@@ -39,7 +39,7 @@ public class Player extends Entity { ;
     
     public Player() {
     	
-    	super(new Point.Double(0,0), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
+    	super(new Point.Double(0,0), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}), 0);
 
 
     	//gets some of the private instance variables for later use
@@ -107,7 +107,7 @@ public class Player extends Entity { ;
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
         
         //if you are on the ground then jump
-        if (upPressed && (grounded()) ) { yVelocity = -60; }
+        if (upPressed && grounded(obstacles) ) { yVelocity = -60; }
         
         //apply the changes
         
@@ -140,10 +140,10 @@ public class Player extends Entity { ;
         
     }
     
-    private boolean grounded() {
+    private boolean grounded(ArrayList<Obstacle> obstacles) {
     	boolean isGrounded = false;
-    	for (Entity obj : Board.obstacles) {
-    		if (obj.collision(this)) {
+    	for (Entity obj : obstacles) {
+    		if (obj.collision(this) != -1) {
     			isGrounded = true;
     		}
     	}

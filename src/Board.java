@@ -80,29 +80,30 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     	if (levelNumber == 0) {
     		//show the level select
     		
-    		player.tick(null);
     		//this needs to be redone to not rely on player
     		
     		if (levelChangeCooldown > 0) { levelChangeCooldown--; }
     		
     		
-    		if (player.downPressed && !player.upPressed) {
+    		if (downPressed && !upPressed) {
     			if (selctedLevel < numberOfLevels && levelChangeCooldown <= 0) {
     				selctedLevel++;
-    				levelChangeCooldown = 5;
+    				levelChangeCooldown = 30;
     			}
-    		}
+    		} 
     		
-    		if (player.upPressed && !player.downPressed) {
+    		if (upPressed && !downPressed) {
     			if (selctedLevel > 1 && levelChangeCooldown <= 0) {
     				selctedLevel--;
-    				levelChangeCooldown = 5;
+    				levelChangeCooldown = 30;
     			}
     		}
 
+    		if (!upPressed && !downPressed) {
+    			levelChangeCooldown = 0;
+    		}
     		
-    		
-    		if (player.spacePressed) {
+    		if (spacePressed) {
     			levelNumber = selctedLevel;
     		} else {
     			//level number should still be zero
@@ -239,18 +240,37 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     public void keyTyped(KeyEvent e) {
         // this is not used but must be defined as part of the KeyListener interface
     }
+    
+    private boolean upPressed = false;
+    private boolean downPressed = false;
+    private boolean spacePressed = false;
 
     @Override
     public void keyPressed(KeyEvent press) {
         // when player presses key call method of that player
     	// will set pushingKey to true
+    	press.getKeyCode();
+    	int key = press.getKeyCode();
+        if (key == KeyEvent.VK_UP) { upPressed = true; }
+        if (key == KeyEvent.VK_DOWN) { downPressed = true; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = true; }
+            
         player.keyPressed(press);
+
     }
 
     @Override
     public void keyReleased(KeyEvent release) {
     	// when player releases key call method of that player
     	// will set the pushingKey to false
+
+        //gets the code of the key being pressed
+        int key = release.getKeyCode();
+        	
+        if (key == KeyEvent.VK_UP) { upPressed = false; }
+        if (key == KeyEvent.VK_DOWN) { downPressed = false; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = false; }
+    	
     	player.keyReleased(release);
     }
     
