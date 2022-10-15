@@ -28,7 +28,6 @@ public class Model {
 		boolean out = false;
 		for (Polygon shape : shapes) {
 			for (Polygon otherShape : other.shapes) {
-				System.out.println();
 				Area area = new Area(shape);
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == true) {

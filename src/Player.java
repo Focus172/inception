@@ -21,8 +21,6 @@ public class Player extends Entity { ;
     public final int maxXVelocity = 50;
     public final int maxYVelocity = 100;
     
-    public boolean grounded = false;
-    
     private final double gravity = 6;
     
     private final int IMAGE_X;
@@ -31,7 +29,6 @@ public class Player extends Entity { ;
     public int health = 100;
     
     public Player() {
-    	
     	super(new Point.Double(0,0), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
 
 
@@ -89,7 +86,6 @@ public class Player extends Entity { ;
         	 xVelocity = 0.0;
         }
         
-       
 
         
         //setting fastest speed allowed
@@ -98,7 +94,13 @@ public class Player extends Entity { ;
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
         
         //if you are on the ground then jump
-        if (upPressed && grounded()) { yVelocity = -60; }
+        if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
+        
+        boolean grounded = grounded();
+        
+        //if you are on the ground then you can't go up unless you jump
+        if (grounded) { yVelocity = 0; }
+        else if (upPressed) { yVelocity = -60; }
         
         //apply the changes
         pos.x += xVelocity;
@@ -108,20 +110,8 @@ public class Player extends Entity { ;
     }
     
     private boolean grounded() {
-    	boolean isGrounded = false;
-    	for (Obstacle obj : Board.obstacles) {
-    		
-    		if (obj.collision(this)) {
-    			isGrounded = true;
-    		}
-    	}
-    	
-    	if (pos.y == Board.MAX_Y-IMAGE_Y) {
-    		isGrounded = true;
-    	}
-    	
     	//TODO make colition detection to 
-    	return isGrounded;
+    	return pos.y == Board.MAX_Y-imageY;
     }
 
     public Point.Double getPos() { return pos; }
