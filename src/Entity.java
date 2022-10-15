@@ -24,8 +24,9 @@ public class Entity {
 	public String fileName;
 	public ArrayList<Point> locations; //debug
 	public ArrayList<Point> locations2; //debug
+	public int damage; //damage you take when you hit it
 	
-	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel) {
+	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel, int ndamage) {
 		pos = npos;
 		size = nsize;
 		model = nmodel;
@@ -33,6 +34,7 @@ public class Entity {
 		fileName = nfileName;
 		locations = new ArrayList<Point>();
 		locations2 = new ArrayList<Point>();
+		damage = ndamage;
 	}
 	
 	public BufferedImage loadImage(String fileName) {
@@ -100,11 +102,20 @@ public class Entity {
 		g.drawPolygon(xtests, ytests, xtests.length);
     }
 	
-	public boolean collision(Entity other) {
+	public int collision(Entity other) { //
 		boolean out = false;
 		Point.Double otherPos = other.getPos();
 		BufferedImage otherImg = other.getImage();
-		return this.model.collision(other.model);
+		if (this.model.collision(other.model)) {
+			return damage;
+		}
+		else {
+			return -1;
+		}
+	}
+	
+	public int getDamage() {
+		return damage;
 	}
 	
 	public Point.Double getPos() {

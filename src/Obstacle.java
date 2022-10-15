@@ -14,7 +14,7 @@ import java.awt.geom.AffineTransform;
 public class Obstacle extends Entity {
 	
 	public Obstacle (Point.Double npos, double nsize, String nfileName, Model nmodel) {
-		super (npos, nsize, nfileName, nmodel);
+		super (npos, nsize, nfileName, nmodel, 0);
 	}
 	
 	public void drawNew(int x, int y, int rotation, Graphics g, ImageObserver observer) {

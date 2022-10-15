@@ -47,7 +47,7 @@ public class Player extends Entity{ ;
     public int health = 100;
     
     public Player() {
-    	super(new Point.Double(500,500), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[] {0,0,10,10}));
+    	super(new Point.Double(500,500), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[] {0,0,10,10}), 0);
 
         // initialize the state
         //score = 0;
@@ -124,14 +124,21 @@ public class Player extends Entity{ ;
         model.move((int)pos.x, (int)pos.y,1);
         
         boolean intersecting = false;
-        for (Obstacle obstacle: obstacles) {
-        	if (collision (obstacle)) {
+        Entity intersector;
+        for (int i = 0; i < obstacles.size(); i++) {
+        	if (collision(obstacles.get(i)) != -1) {
         		intersecting = true;
+        		intersector = obstacles.get(i);
         	}
         }
-        if (intersecting == true) {
-        	pos.x = 0;
+        while (intersecting == true) {
+        	int basex = (int) pos.x;
+        	int basey = (int) pos.y;
+        	for (int i = 0; i < 8; i++) {
+        		
+        	}
         }
+        
         
         //pos.translate(xVelocity, yVelocity);
         
@@ -139,6 +146,7 @@ public class Player extends Entity{ ;
     
     private boolean grounded() {
     	//TODO make colition detection to 
+    	
     	return pos.y == Board.MAX_Y-imageY;
     }
 

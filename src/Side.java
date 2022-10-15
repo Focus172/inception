@@ -8,10 +8,11 @@ public class Side {
 	private int whichSide;
 	private double rotation;
 	
-	public Side(Obstacle[] obstacles, int whichSide) {
-		this.obstacles = obstacles;
+	public Side(Obstacle[] nobstacles, int whichSide) {
 		this.whichSide = whichSide;
-		rotation = 0;
+		int nrotation = 90 * whichSide;
+		obstacles = nobstacles;
+		rotate (nrotation);
 	}
 	
 	public Obstacle[] getObstacles(){
