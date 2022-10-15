@@ -42,17 +42,16 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
-        //coins = populateCoins();
         sides = new Side[4];
-//        obstacles = populateObstacles();
         
         obstacles = new Obstacle[3];
-        obstacles[0] = new Obstacle(new Point.Double(200,200), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
-        obstacles[1] = new Obstacle(new Point.Double(300,300), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[0] = new Obstacle(new Point.Double(200,200), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
+        obstacles[1] = new Obstacle(new Point.Double(300,300), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
+        
         sides[0] = new Side(obstacles, 1);
         sides[1] = new Side(obstacles, 1);
         
-        obstacles[2] = new Obstacle(new Point.Double(300,600), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
+        obstacles[2] = new Obstacle(new Point.Double(300,600), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
 
         
         // this timer will call the actionPerformed() method every DELAY ms

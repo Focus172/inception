@@ -1,5 +1,4 @@
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.awt.Point;
 import java.awt.Polygon;
 
@@ -32,7 +31,8 @@ public class Player extends Entity { ;
     public int health = 100;
     
     public Player() {
-    	super(new Point.Double(0,0), 1, "player.png", new Model(new Polygon[0]));
+    	
+    	super(new Point.Double(0,0), 1, "player.png", new Model(new int[]{0,64,0,64}, new int[]{0,0,64,64}));
 
 
     	//gets some of the private instance variables for later use
@@ -115,7 +115,7 @@ public class Player extends Entity { ;
     		}
     	}
     	
-    	if (pos.y == Board.MAX_Y-imageY) {
+    	if (pos.y == Board.MAX_Y-IMAGE_Y) {
     		isGrounded = true;
     	}
     	

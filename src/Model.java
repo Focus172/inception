@@ -32,7 +32,6 @@ public class Model {
 				if (area.isEmpty() == true) {
 					out = true;
 				}
-				
 			}
 		}
 		return out;
@@ -49,6 +48,7 @@ public class Model {
 	}
 	
 	private Point.Double transform (Point.Double point, int degrees) {
+		
 		point.x = (Math.cos(Math.toRadians(degrees)) * point.x - point.y * Math.sin(Math.toRadians(degrees)));
 		point.y = (Math.cos(Math.toRadians(degrees)) * point.y + point.x * Math.sin(Math.toRadians(degrees)));
 		return point;
