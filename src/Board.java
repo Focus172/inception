@@ -5,8 +5,8 @@ import javax.swing.*;
 public class Board extends JPanel implements ActionListener, KeyListener {
 
     // controls the frame rate by setting delay between ticks
-    private final int DELAY = 25;
-    private final double FPS = 1000.0 / DELAY;
+    private static final int DELAY = 25;
+    private static final double FPS = 1000.0 / DELAY;
     
     // controls the size of the board
     public static final int MAX_X = 800;
@@ -14,7 +14,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     
     public static final int HEALTH_BAR_Y = 25;
 
-    // suppress serialization warning
+    // suppress serialization  warning
     private static final long serialVersionUID = 490905409104883233L;
     
     // keep a timer object that triggers actionPerformed() can be access in other method
@@ -38,14 +38,13 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         
         // initialize the game state
         player = new Player();
-        sides = new Side[4];
+        sides = new Side[2];
         
         //Obstacle[] obstacles = new Obstacle[2];
         obstacles[0] = new Obstacle(new Point.Double(200,500), 1, "playerIdle.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         obstacles[1] = new Obstacle(new Point.Double(100,150), 1, "coin.png", new Model(new int[]{0,10,0,10}, new int[]{0,0,10,10}));
         sides[0] = new Side(obstacles, 1);
- 
-        //sides[1] = new Side(obstacles, 1);
+        sides[1] = new Side(obstacles, 1);
 
         
         // this timer will call the actionPerformed() method every DELAY ms
@@ -77,42 +76,26 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    	
+        //does some back end stuff
+    	super.paintComponent(g);
+    	
         // when calling g.drawImage() we can use "this" for the ImageObserver 
         // because Component implements the ImageObserver interface, and JPanel 
         // extends from Component. So "this" Board instance, as a Component, can 
         // react to imageUpdate() events triggered by g.drawImage()
  
-        // draw our graphics.
-        //drawScore(g);
+        // draw the graphics.
         player.draw(g, this, 0);
-        sides[0].draw(g, this);
-        
-    	//drawing the health
+        for (Side s : sides) {
+        	s.draw(g, this);
+    	}
+        drawHealth(g);
 
-        // set the text to be displayed
-    	String text = player.health + "/100";
-            
-    	// we need to cast the Graphics to Graphics2D to draw nicer text
-
-        // set the text color and font
         
-    	//filling green section
-        g.setColor(new Color(30, 201, 139));
-        g.fillRect(0, MAX_Y, (int)((player.health/100.0)*MAX_X), HEALTH_BAR_Y);
-        
-        //filling red section
-        g.setColor(new Color(200, 0, 0));
-        g.fillRect((int)((player.health/100.0)*MAX_X), MAX_Y, MAX_X, HEALTH_BAR_Y);
-        
-        g.setFont(new Font("Lato", Font.BOLD, 25));
-        g.setColor(new Color(0, 0, 0));
-        g.drawString(text, 0, MAX_Y+HEALTH_BAR_Y);
-
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
     }
-
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -121,7 +104,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent press) {
-        // when player presses key call method of that player
+        //when player presses key call method of that player
     	//this method will set them pushing the key to true
         player.keyPressed(press);
     }
@@ -131,6 +114,28 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     	// when player releases key call method of that player
     	// this method will set them pushing the key to false
     	player.keyReleased(release);
+    }
+    
+    private boolean drawHealth(Graphics g) {
+    	
+    	//text to print
+    	String text = player.health + "/100";
+        
+    	//filling green section
+        g.setColor(new Color(30, 201, 139));
+        g.fillRect(0, MAX_Y, (int)((player.health/100.0)*MAX_X), HEALTH_BAR_Y);
+        
+        //filling red section
+        g.setColor(new Color(201, 30, 139));
+        g.fillRect((int)((player.health/100.0)*MAX_X), MAX_Y, MAX_X, HEALTH_BAR_Y);
+        
+        //set the text color and font
+        g.setFont(new Font("Lato", Font.BOLD, 25));
+        g.setColor(new Color(0, 0, 0));
+        g.drawString(text, 0, MAX_Y+HEALTH_BAR_Y);
+        
+        //just in case someone wants to test
+        return true;
     }
 
 }

@@ -69,30 +69,29 @@ public class Player extends Entity { ;
         if (health > 0) { health--; }
         
         //prevent them from moving through things
-        if (pos.y < 0) { pos.y = 0; }
+        if (pos.y < 0) { pos.y = 0;}
         else if (pos.y >= Board.MAX_Y - IMAGE_Y) { pos.y = Board.MAX_Y - IMAGE_Y; yVelocity = 0.0; }
+        
+        //if the player wants to move then let them
+        if (rightPressed && !leftPressed) { xVelocity += 10.0; }
+        else if (!rightPressed && leftPressed) { xVelocity -= 10.0; } 
         
         //prevent them from moving through walls
         if (pos.x < 0) { pos.x = 0; xVelocity = 0; }
         else if (pos.x >= Board.MAX_X - IMAGE_X) { pos.x = Board.MAX_X - IMAGE_X; xVelocity = 0.0; }
         
         
-        //if the player wants to move then let them
-        if (rightPressed && !leftPressed) { xVelocity += 10.0; }
-        else if (!rightPressed && leftPressed) { xVelocity -= 10.0; } 
+
         
         //if player does not want to move or is indesive then slow them
         if ((rightPressed && leftPressed) || (!rightPressed && !leftPressed)) {
         	 xVelocity = 0.0;
         }
         
-
-        
         //setting fastest speed allowed
         if (xVelocity > maxXVelocity) {xVelocity = maxXVelocity;}
         if (xVelocity < -maxXVelocity) {xVelocity = -maxXVelocity;}
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
-
 
         boolean grounded = grounded();
         
@@ -103,7 +102,6 @@ public class Player extends Entity { ;
         //apply the changes
         pos.x += xVelocity;
         pos.y += yVelocity;
-        //pos.translate(xVelocity, yVelocity);
         
     }
     
@@ -112,7 +110,7 @@ public class Player extends Entity { ;
     	
     	
     	
-    	return pos.y == Board.MAX_Y-IMAGE_Y;
+    	return pos.y >= Board.MAX_Y-IMAGE_Y;
     }
 
     public Point.Double getPos() { return pos; }
