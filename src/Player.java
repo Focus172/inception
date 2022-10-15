@@ -1,14 +1,5 @@
-
 import java.awt.event.KeyEvent;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
@@ -18,18 +9,18 @@ import javax.imageio.ImageIO;
 import java.awt.geom.Point2D.Double;
 
 
-public class Player extends Entity{ ;
+public class Player extends Entity { ;
 
     //has x and y position of player
     
     //private int score;
-    private BufferedImage image;
     
     //handles continuous movement
     public boolean upPressed = false;
     public boolean downPressed = false;
     public boolean leftPressed = false;
     public boolean rightPressed = false;
+    public boolean spacePressed = false;
     
     public double yVelocity = 0;
     public double xVelocity = 0;
@@ -41,8 +32,8 @@ public class Player extends Entity{ ;
     
     private final double gravity = 6;
     
-    private int imageX;
-    private int imageY;
+    private final int IMAGE_X;
+    private final int IMAGE_Y;
     
     public static int[] xvals = new int[]{0,0,50,50};
 	public static int[] yvals = new int[] {0,50,50,0};
@@ -68,8 +59,8 @@ public class Player extends Entity{ ;
     	width = xvals[2]-xvals[0];
     	height = yvals[2]-yvals[0];
     
-    	imageX = super.image.getWidth();
-    	imageY = super.image.getHeight();
+    	IMAGE_X = super.image.getWidth();
+    	IMAGE_Y = super.image.getHeight();
     	
     	timeSinceCol = 0;
     }
@@ -82,6 +73,7 @@ public class Player extends Entity{ ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = true; }
         if (key == KeyEvent.VK_DOWN) { downPressed = true; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = true; }
         
     }
     
@@ -93,6 +85,7 @@ public class Player extends Entity{ ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = false; }  
         if (key == KeyEvent.VK_DOWN) { downPressed = false; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = false; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = false; }
         
     }
 
@@ -107,11 +100,11 @@ public class Player extends Entity{ ;
         
         //prevent them from moving through things
         if (pos.y < 0) { pos.y = 0; }
-        else if (pos.y >= Board.MAX_Y - imageY) { pos.y = Board.MAX_Y - imageY; yVelocity = 0.0; }
+        else if (pos.y >= Board.MAX_Y - IMAGE_Y) { pos.y = Board.MAX_Y - IMAGE_Y; yVelocity = 0.0; }
         
         //prevent them from moving through walls
         if (pos.x < 0) { pos.x = 0; xVelocity = 0; }
-        else if (pos.x >= Board.MAX_X - imageX) { pos.x = Board.MAX_X - imageX; xVelocity = 0.0; }
+        else if (pos.x >= Board.MAX_X - IMAGE_X) { pos.x = Board.MAX_X - IMAGE_X; xVelocity = 0.0; }
         
         
         //if the player wants to move then let them
@@ -129,7 +122,7 @@ public class Player extends Entity{ ;
         if (yVelocity > maxYVelocity) {yVelocity = maxYVelocity;}
         
         //if you are on the ground then jump
-        if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
+        if (upPressed && grounded(obstacles) ) { yVelocity = -60; }
         
         if (Math.abs(pos.x - prev.x) > 80) {
         	pos.x = prev.x;
@@ -154,6 +147,7 @@ public class Player extends Entity{ ;
         
         boolean intersecting = false;
         Entity intersector = null;
+        if (obstacles != null) {
         for (int i = 0; i < obstacles.size(); i++) {
         	if (collision(obstacles.get(i)) != -1) {
         		intersecting = true;
@@ -303,6 +297,7 @@ public class Player extends Entity{ ;
             
             timeSinceCol = 5;
         }
+        }
         
         System.out.println(pos.x + ", " + pos.y);
         
@@ -310,10 +305,20 @@ public class Player extends Entity{ ;
         
     }
     
-    private boolean grounded() {
-    	//TODO make colition detection to 
+    private boolean grounded(ArrayList<Obstacle> obstacles) {
+    	boolean isGrounded = false;
+    	for (Entity obj : obstacles) {
+    		if (obj.collision(this) != -1) {
+    			isGrounded = true;
+    		}
+    	}
     	
-    	return pos.y == Board.MAX_Y-imageY;
+    	if (pos.y == Board.MAX_Y-IMAGE_Y) {
+    		isGrounded = true;
+    	}
+    	
+    	//TODO make colition detection to 
+    	return isGrounded;
     }
 
     public Point.Double getPos() { return pos; }

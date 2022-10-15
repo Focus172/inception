@@ -40,8 +40,9 @@ public class Entity {
 	public BufferedImage loadImage(String fileName) {
         
     	//loads the image for the player
-    	try { image = ImageIO.read(new File("images/" + fileName));
-        } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); }
+		System.out.println(fileName);
+    	try { image = ImageIO.read(new File("images/" + fileName)); System.out.println("good");
+        } catch (IOException e) { e.printStackTrace(); System.out.println("bad"); } //System.out.println("Error opening image file: " + exc.getMessage()); }
 		return image;
     
     }

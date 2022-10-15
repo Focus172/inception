@@ -57,15 +57,14 @@ public class Model {
 	
 	public boolean collision (Model other) {
 		boolean out = false;
-		for (Polygon shape: shapes) {
+		for (Polygon shape : shapes) {
 			for (Polygon otherShape: other.shapes) {
 				Area area = new Area(shape);
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == false) {
 					out = true;
-					System.out.println("CORRECT");
+					System.out.println("CORRECT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCORRECT");
 				}
-				
 			}
 		}
 		return out;
