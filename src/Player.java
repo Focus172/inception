@@ -30,6 +30,7 @@ public class Player extends Entity{ ;
     public boolean downPressed = false;
     public boolean leftPressed = false;
     public boolean rightPressed = false;
+    public boolean spacePressed = false;
     
     public double yVelocity = 0;
     public double xVelocity = 0;
@@ -64,6 +65,7 @@ public class Player extends Entity{ ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = true; }
         if (key == KeyEvent.VK_DOWN) { downPressed = true; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = true; }
         
     }
     
@@ -75,6 +77,7 @@ public class Player extends Entity{ ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = false; }  
         if (key == KeyEvent.VK_DOWN) { downPressed = false; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = false; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = false; }
         
     }
 
@@ -125,6 +128,8 @@ public class Player extends Entity{ ;
         
         boolean intersecting = false;
         Entity intersector;
+        
+        if (obstacles != null) {
         for (int i = 0; i < obstacles.size(); i++) {
         	if (collision(obstacles.get(i)) != -1) {
         		intersecting = true;
@@ -137,6 +142,7 @@ public class Player extends Entity{ ;
         	for (int i = 0; i < 8; i++) {
         		
         	}
+        }
         }
         
         

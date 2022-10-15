@@ -63,7 +63,7 @@ public class Model {
 				area.intersect(new Area(otherShape));
 				if (area.isEmpty() == false) {
 					out = true;
-					System.out.println("CORRECT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCORRECT");
+					//System.out.println("CORRECT\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCORRECT");
 				}
 				
 			}
