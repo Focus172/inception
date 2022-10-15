@@ -62,6 +62,7 @@ public class Entity {
             (int)pos.y-h, 
             observer
         );
+        model.draw(g, observer);
     }
 	
 	public boolean collision(Entity other) {

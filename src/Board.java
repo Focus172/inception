@@ -52,6 +52,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         sides[0] = new Side(obstacles, 1);
  
         sides[1] = new Side(obstacles, 1);
+        sides[2] = new Side(obstacles, 1);
+        sides[3] = new Side(obstacles, 1);
 
         
         // this timer will call the actionPerformed() method every DELAY ms
@@ -68,7 +70,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         // before the graphics are redrawn.
 
         // updates each objects each tick
-        player.tick();
+        tickAll();
         sides[0].rotate(1);
         //object.tck();
 
@@ -137,7 +139,14 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     }
     
     private void tickAll() {
-    	player.tick();
+    	ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+    	for (int i = 0; i < sides.length; i++) {
+    		Obstacle[] imported = sides[i].getObstacles();
+    		for (Obstacle obstacle: imported) {
+    			obstacles.add(obstacle);
+    		}
+    	}
+    	player.tick(obstacles);
     	
     }
 

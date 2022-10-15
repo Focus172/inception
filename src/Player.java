@@ -12,6 +12,8 @@ import java.awt.Rectangle;
 import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import java.awt.geom.Point2D.Double;
 
@@ -45,7 +47,7 @@ public class Player extends Entity{ ;
     public int health = 100;
     
     public Player() {
-    	super(new Point.Double(0,0), 1, "player.png", new Model(new Polygon[0]));
+    	super(new Point.Double(500,500), 1, "player.png", new Model(new int[]{0,10,0,10}, new int[] {0,0,10,10}));
 
         // initialize the state
         //score = 0;
@@ -76,7 +78,7 @@ public class Player extends Entity{ ;
         
     }
 
-    public void tick() {
+    public void tick(ArrayList<Obstacle> obstacles) {
     	//called every tick
 
         //apply gravity
@@ -115,8 +117,22 @@ public class Player extends Entity{ ;
         if (upPressed && (grounded() || grounded) ) { yVelocity = -60; }
         
         //apply the changes
+        
         pos.x += xVelocity;
         pos.y += yVelocity;
+        
+        model.move((int)pos.x, (int)pos.y);
+        
+        boolean intersecting = false;
+        for (Obstacle obstacle: obstacles) {
+        	if (collision (obstacle)) {
+        		intersecting = true;
+        	}
+        }
+        if (intersecting == true) {
+        	pos.x = 0;
+        }
+        
         //pos.translate(xVelocity, yVelocity);
         
     }
