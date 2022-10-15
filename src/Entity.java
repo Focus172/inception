@@ -50,15 +50,16 @@ public class Entity {
 		int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
 		BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
 		AffineTransform at = new AffineTransform();
-		at.translate(w / 2, h / 2);
-		at.rotate(rads,0, 0);
-		at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
-		final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+		at.translate(0.5 * w, 0.5 * h);
+		at.rotate(rads);
+		System.out.println(rotation);
+		at.translate(0.5 * (-w), 0.5 * (-h));
+		AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 		rotateOp.filter(image,rotatedImage);
         g.drawImage(
             rotatedImage, 
-            (int)pos.x, 
-            (int)pos.y, 
+            (int)pos.x-w, 
+            (int)pos.y-h, 
             observer
         );
     }
