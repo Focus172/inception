@@ -1,6 +1,12 @@
 import java.awt.event.KeyEvent;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import java.awt.geom.Point2D.Double;
 
 
 public class Player extends Entity { ;
@@ -14,6 +20,7 @@ public class Player extends Entity { ;
     public boolean downPressed = false;
     public boolean leftPressed = false;
     public boolean rightPressed = false;
+    public boolean spacePressed = false;
     
     public double yVelocity = 0;
     public double xVelocity = 0;
@@ -48,6 +55,7 @@ public class Player extends Entity { ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = true; }
         if (key == KeyEvent.VK_DOWN) { downPressed = true; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = true; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = true; }
         
     }
     
@@ -59,10 +67,11 @@ public class Player extends Entity { ;
         if (key == KeyEvent.VK_RIGHT) { rightPressed = false; }  
         if (key == KeyEvent.VK_DOWN) { downPressed = false; }
         if (key == KeyEvent.VK_LEFT) { leftPressed = false; }
+        if (key == KeyEvent.VK_SPACE) { spacePressed = false; }
         
     }
 
-    public void tick() {
+    public void tick(ArrayList<Obstacle> obstacles) {
     	//called every tick
 
         //apply gravity
@@ -101,8 +110,32 @@ public class Player extends Entity { ;
         if (upPressed && (grounded()) ) { yVelocity = -60; }
         
         //apply the changes
+        
         pos.x += xVelocity;
         pos.y += yVelocity;
+        
+        model.move((int)pos.x, (int)pos.y,1);
+        
+        boolean intersecting = false;
+        Entity intersector;
+        
+        if (obstacles != null) {
+        for (int i = 0; i < obstacles.size(); i++) {
+        	if (collision(obstacles.get(i)) != -1) {
+        		intersecting = true;
+        		intersector = obstacles.get(i);
+        	}
+        }
+        while (intersecting == true) {
+        	int basex = (int) pos.x;
+        	int basey = (int) pos.y;
+        	for (int i = 0; i < 8; i++) {
+        		
+        	}
+        }
+        }
+        
+        
         //pos.translate(xVelocity, yVelocity);
         
     }

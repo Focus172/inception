@@ -8,8 +8,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.lang.*;
+import java.util.ArrayList;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.AffineTransformop;
+import java.awt.image.AffineTransformOp;
+import javax.swing.ImageIcon;
+
 
 
 public class Entity {
@@ -19,13 +22,19 @@ public class Entity {
 	public double size; //1 is the same size as the image file itself; multiplicative scaling
 	public Model model;
 	public String fileName;
+	public ArrayList<Point> locations; //debug
+	public ArrayList<Point> locations2; //debug
+	public int damage; //damage you take when you hit it
 	
-	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel) {
+	public Entity (Point.Double npos, double nsize, String nfileName, Model nmodel, int ndamage) {
 		pos = npos;
 		size = nsize;
 		model = nmodel;
 		image = loadImage(nfileName);
 		fileName = nfileName;
+		locations = new ArrayList<Point>();
+		locations2 = new ArrayList<Point>();
+		damage = ndamage;
 	}
 	
 	public BufferedImage loadImage(String fileName) {
@@ -38,36 +47,75 @@ public class Entity {
     }
 	
 	public void draw(Graphics g, ImageObserver observer, double rotation) {
-        // with the Point class, note that pos.getX() returns a double, but 
-        // pos.x reliably returns an int. https://stackoverflow.com/a/30220114/4655368
-        // this is also where we translate board grid position into a canvas pixel
-        // position by multiplying by the tile size.
 		BufferedImage copiedImage = loadImage(fileName);
-		double rads = Math.toRadians(90);
+//		double rads = Math.toRadians(-rotation);
+//		double sin = Math.abs(Math.sin(rads));
+//		double cos = Math.abs(Math.cos(rads));
+//		int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+//		int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+//		BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
+//		AffineTransform at = new AffineTransform();
+//		at.translate(0.5 * w, 0.5 * h);
+//		at.rotate(rads);
+//		System.out.println(rotation);
+//		at.translate(0.5 * (-w), 0.5 * (-h));
+//		AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+//		rotateOp.filter(image,rotatedImage);
+//        g.drawImage(
+//            rotatedImage, 
+//            (int)pos.x-w, 
+//            (int)pos.y-h, 
+//            observer
+//        );
+		
+		double rads = Math.toRadians(-rotation);
 		double sin = Math.abs(Math.sin(rads));
 		double cos = Math.abs(Math.cos(rads));
-		int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
-		int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
-		BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
-		AffineTransform at = new AffineTransform();
-		at.translate(w / 2, h / 2);
-		at.rotate(rads,0, 0);
-		at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
-		final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		rotateOp.filter(image,rotatedImage);
-        g.drawImage(
-            rotatedImage, 
-            (int)pos.x, 
-            (int)pos.y, 
-            observer
-        );
+//		int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+//		int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+//		BufferedImage rotatedImage = new BufferedImage(image.getWidth()*4, image.getHeight()*4, image.getType());
+//		AffineTransform at = new AffineTransform();
+//		at.translate(w * 2, h * 2);
+//		at.rotate(rads);
+//		at.translate(2 * (-w), 2 * (-h));
+//		AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+//		rotateOp.filter(image,rotatedImage);
+		
+		
+		
+		g.drawImage(
+			rotateImage(copiedImage, rotation), 
+	        (int)(pos.x - (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin)), 
+	        (int)(pos.y - Math.floor(image.getHeight() * cos + image.getWidth() * sin)), 
+	        observer
+	    );
+        
+        model.draw(g, observer);
+        
+        locations.add(new Point((int)pos.x,(int)pos.y));
+		int[] xtests = new int[locations.size()];
+		int[] ytests = new int[locations.size()];
+		for (int i = 0; i < locations.size(); i++) {
+			xtests[i] = locations.get(i).x;
+			ytests[i] = locations.get(i).y;
+		}
+		g.drawPolygon(xtests, ytests, xtests.length);
     }
 	
-	public boolean collision(Entity other) {
-		//boolean out = false;
-		//Point.Double otherPos = other.getPos();
-		//BufferedImage otherImg = other.getImage();
-		return this.model.collision(other.model);
+	public int collision(Entity other) { //
+		boolean out = false;
+		Point.Double otherPos = other.getPos();
+		BufferedImage otherImg = other.getImage();
+		if (this.model.collision(other.model)) {
+			return damage;
+		}
+		else {
+			return -1;
+		}
+	}
+	
+	public int getDamage() {
+		return damage;
 	}
 	
 	public Point.Double getPos() {
@@ -76,6 +124,31 @@ public class Entity {
 	
 	public BufferedImage getImage() {
 		return image;
+	}
+	
+	private BufferedImage rotateImage(BufferedImage buffImage, double angle) {
+	    double radian = Math.toRadians(-angle);
+	    double sin = Math.abs(Math.sin(radian));
+	    double cos = Math.abs(Math.cos(radian));
+
+	    int width = buffImage.getWidth();
+	    int height = buffImage.getHeight();
+
+	    int nWidth = (int) Math.floor((double) width * cos + (double) height * sin);
+	    int nHeight = (int) Math.floor((double) height * cos + (double) width * sin);
+
+	    BufferedImage rotatedImage = new BufferedImage(nWidth, nHeight, BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D graphics = rotatedImage.createGraphics();
+
+	    graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+	    graphics.translate((nWidth - width) / 2, (nHeight - height) / 2);
+	    // This is the rotation around the center point - change this line
+	    graphics.rotate(radian, (double) (width / 2), (double) (height / 2));
+	    graphics.drawImage(buffImage, 0, 0, null);
+	    graphics.dispose();
+
+	    return rotatedImage;
 	}
 	
 }

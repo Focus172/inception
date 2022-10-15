@@ -8,10 +8,11 @@ public class Side {
 	private int whichSide;
 	private double rotation;
 	
-	public Side(Obstacle[] obstacles, int whichSide) {
-		this.obstacles = obstacles;
+	public Side(Obstacle[] nobstacles, int whichSide) {
 		this.whichSide = whichSide;
-		rotation = 0;
+		int nrotation = 90 * whichSide;
+		obstacles = nobstacles;
+		rotate (nrotation);
 	}
 	
 	public Obstacle[] getObstacles(){
@@ -34,15 +35,15 @@ public class Side {
 	
 	public void draw(Graphics g, ImageObserver observer) {
 		for (Obstacle obby: obstacles) {
-			obby.draw(g, observer, rotation);
+			obby.draw(g, observer, -rotation);
 		}
 	}
 	
 	public void rotate(double degrees) {
 		for (int i = 0; i < obstacles.length; i++) {
-			obstacles[i].rotate(degrees);
+			obstacles[i].rotate(degrees, rotation);
 		}
-		rotation -= degrees;
+		rotation += degrees;
 		if (rotation > 360.0) {
 			rotation -= 360.0;
 		}
