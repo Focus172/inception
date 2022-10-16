@@ -35,24 +35,25 @@ public class Model {
 	
 	public void move (double x, double y, double rotation) { //assumes first corner in polygon is upper left hand corner of the image
 		
-		shapes[0].xpoints[0] = (int) x;
-		shapes[0].ypoints[0] = (int) y;
-		double cos = Math.cos(Math.toRadians(rotation));
-		double sin = Math.sin(Math.toRadians(rotation));
-		int originaly = originalShapes[0].ypoints[0];
-		int originalx = originalShapes[0].xpoints[0];
-		for (int j = 0; j < shapes.length; j++) {
-			for (int i = 1; i < originalShapes[j].xpoints.length; i++) {
-				double height = originalShapes[j].ypoints[i] - originaly;
-				double width = originalShapes[j].xpoints[i] - originalx;
-				double radius = Math.sqrt(height*height + width*width);
-//				System.out.println("radius: " + radius);
-				shapes[j].ypoints[i] = (int)(-height * cos + width * sin + y);
-				shapes[j].xpoints[i] = (int)(height * sin + width * cos + x);
-//				System.out.println(height * cos + width * sin + " + " + y);
-//				System.out.println(height * sin + width * cos + " + " + x);
-			}
-		}
+//		shapes[0].xpoints[0] = (int) x;
+//		shapes[0].ypoints[0] = (int) y;
+//		double cos = Math.cos(Math.toRadians(rotation));
+//		double sin = Math.sin(Math.toRadians(rotation));
+//		System.out.println(originalShapes[0].toString());
+//		int originaly = originalShapes[0].ypoints[0];
+//		int originalx = originalShapes[0].xpoints[0];
+//		for (int j = 0; j < shapes.length; j++) {
+//			for (int i = 1; i < originalShapes[j].xpoints.length; i++) {
+//				double height = originalShapes[j].ypoints[i] - originaly;
+//				double width = originalShapes[j].xpoints[i] - originalx;
+//				double radius = Math.sqrt(height*height + width*width);
+////				System.out.println("radius: " + radius);
+//				shapes[j].ypoints[i] = (int)(-height * cos + width * sin + y);
+//				shapes[j].xpoints[i] = (int)(height * sin + width * cos + x);
+////				System.out.println(height * cos + width * sin + " + " + y);
+////				System.out.println(height * sin + width * cos + " + " + x);
+//			}
+//		}
 	}
 	
 	public boolean collision (Model other) {
@@ -105,7 +106,7 @@ public class Model {
 	            y[0], 
 	            observer
 	    );
-		g.drawPolygon(shapes[0].xpoints, shapes[0].ypoints, 4);
+//		g.drawPolygon(shapes[0].xpoints, shapes[0].ypoints, 4);
 		
 		locations.add(new Point(x[0],y[0]));
 		int[] xtests = new int[locations.size()];
@@ -114,7 +115,7 @@ public class Model {
 			xtests[i] = locations.get(i).x;
 			ytests[i] = locations.get(i).y;
 		}
-		g.drawPolygon(xtests, ytests, xtests.length);
+//		g.drawPolygon(xtests, ytests, xtests.length);
 		
         } catch (IOException e) { e.printStackTrace(); } //System.out.println("Error opening image file: " + exc.getMessage()); };
 		

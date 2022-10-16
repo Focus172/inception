@@ -49,7 +49,7 @@ public class Player extends Entity { ;
     
     public Player() {
     	
-    	super(new Point.Double(500,500), 1, "player.png", new Model(xvals, yvals), 0);
+    	super(new Point.Double(500,500), 1, "idlePlayer.png", new Model(xvals, yvals), 0);
 
         // initialize the state
         //score = 0;
