@@ -4,6 +4,19 @@ import java.awt.event.*;
 import java.util.ArrayList;
 //import java.util.Random;
 import javax.swing.*;
+import java.awt.geom.AffineTransform;
+import java.awt.event.KeyEvent;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.geom.AffineTransform;
+
+import java.awt.image.AffineTransformOp;
 
 public class Board extends JPanel implements ActionListener, KeyListener {
 
@@ -34,6 +47,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     private boolean downPressed = false;
     private boolean spacePressed = false;
     
+    private int rotation;
     
     private Side[] sides;
     
@@ -51,6 +65,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         
         sides = new Side[4];
+        rotation = 0;
         
         
         // this timer will call the actionPerformed() method every DELAY ms
@@ -121,9 +136,15 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     			//affineTransform.rotate(Math.toRadians(angle), m_imageWidth/2, m_imageHeight/2); 
     			//obstacles1[2] = new Obstacle(new Point.Double(120,680), 1, "background.png", new Model(new int[]{0,800,0,800}, new int[]{0,0,120,120}));
     			
-    			Obstacle[] obstacles1 = new Obstacle[2];
-    			obstacles1[0] = new Obstacle(new Point.Double(400,200), 1, "idlePlayer.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
-    			obstacles1[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}));
+    			Obstacle[] obstacles1 = new Obstacle[1];
+//    			obstacles1[0] = new Obstacle(new Point.Double(400,200), 1, "idlePlayer.png", new Model(new int[]{400,410,410,400}, new int[]{200,200,210,210}));
+//    			obstacles1[1] = new Obstacle(new Point.Double(400,150), 1, "coin.png", new Model(new int[]{400,410,410,400}, new int[]{150,150,160,160}));
+    			
+    			Polygon[] polygons = new Polygon[1];
+    			polygons[0] = new Polygon(new int[] {0,50,170,405,520,560,560,0}, new int[] {390,390,513,513,400,400,560,560}, 8);
+    			
+    			obstacles1[0] = new Obstacle(new Point.Double(1,1), 1, "blank.png", new Model(polygons));
+    			
     			sides[0] = new Side(obstacles1, 0);
     	        
     	        Obstacle[] obstacles2 = new Obstacle[0];
@@ -203,6 +224,44 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         	
         } else {
         
+        	if (levelNumber==1) {
+        		BufferedImage img;
+        		try {
+					img = ImageIO.read(new File("images/FINALlevelOneBackground.png"));
+					rotation++;
+					System.out.println("Rotation: " + rotation);
+//					final double rads = Math.toRadians(rotation);
+//	        		final double sin = Math.abs(Math.sin(rads));
+//	        		final double cos = Math.abs(Math.cos(rads));
+//	        		final int w = (int) Math.floor(image.getWidth() * cos + image.getHeight() * sin);
+//	        		final int h = (int) Math.floor(image.getHeight() * cos + image.getWidth() * sin);
+//	        		final BufferedImage rotatedImage = new BufferedImage(w, h, image.getType());
+//	        		final AffineTransform at = new AffineTransform();
+//	        		at.translate(w / 2, h / 2);
+//	        		at.rotate(rads,0, 0);
+//	        		at.translate(-image.getWidth() / 2, -image.getHeight() / 2);
+//	        		final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+//	        		rotateOp.filter(image,rotatedImage);
+        			
+        			AffineTransform transform = new AffineTransform();
+        	        transform.rotate(Math.toRadians(rotation), img.getWidth() / 2, img.getHeight() / 2);
+        	        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
+        	        img = op.filter(img, null);
+
+        	        g.drawImage(img, getX()+120, getY()+120, null);
+//	        		g.drawImage(
+//	        	            rotatedImage, 
+//	        	            (int)(60.0*Math.abs(Math.cos(rads/2))), // * Board.TILE_SIZE
+//	        	            0, // * Board.TILE_SIZE
+//	        	            this
+//	        	        ); 
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            	
+        		
+        	
         	// draw our graphics.
         	player.draw(g, this, 0);
         	sides[0].draw(g, this);
@@ -230,6 +289,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         	// this smooths out animations on some systems
         	Toolkit.getDefaultToolkit().sync();
+        	
+        	}
         }
     }
 
@@ -269,6 +330,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     }
     
     private void tickAll() {
+    	
+    	
     	
     	sides[0].rotate(1);
     	
